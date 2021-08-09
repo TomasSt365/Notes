@@ -15,6 +15,35 @@ public class NoteData {
         this.name = name;
     }
 
+    public String getName() {
+        return name;
+    }
 
+    public void setName(String name) {
+        this.name = name;
+    }
 
+    public String getNoteText() {
+        return noteText;
+    }
+
+    public void setNoteText(String noteText) {
+        this.noteText = noteText;
+    }
+
+    public String getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public void setDateOfCreation(String dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public String getDateOfChange() {
+        return dateOfChange;
+    }
+
+    public void setDateOfChange(String dateOfChange) {
+        this.dateOfChange = dateOfChange;
+    }
 }
