@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/lapin/StudioProjects/Notes/app/src/main/res/layout-land/main_screen.xml" value="0.2" />
+        <entry key="..\:/Users/lapin/StudioProjects/Notes/app/src/main/res/layout/main_screen.xml" value="0.1838768115942029" />
         <entry key="app/src/main/res/layout-land/fragment_notes_list.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout-land/main_screen.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/fragment_note.xml" value="0.2916666666666667" />

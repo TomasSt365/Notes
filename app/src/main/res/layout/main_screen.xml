@@ -6,9 +6,17 @@
     android:orientation="vertical"
     tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/notesList"
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:id="@+id/notesList"
+            style="@style/notesListStyle">
+
+        </LinearLayout>
+
+    </ScrollView>
+
 
 </LinearLayout>

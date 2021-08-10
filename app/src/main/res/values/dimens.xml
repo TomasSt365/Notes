@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="nameSie">35sp</dimen>
+    <dimen name="noteText">20sp</dimen>
+</resources>
