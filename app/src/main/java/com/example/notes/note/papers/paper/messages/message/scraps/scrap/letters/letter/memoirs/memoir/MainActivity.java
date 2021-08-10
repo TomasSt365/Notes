@@ -21,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.noteContent, NoteContentFragment.newInstance())
+                    .replace(R.id.noteContent, NoteContentFragment.newInstance(new NoteData("Name","SomethingText")))
                     .commit();
         }
     }

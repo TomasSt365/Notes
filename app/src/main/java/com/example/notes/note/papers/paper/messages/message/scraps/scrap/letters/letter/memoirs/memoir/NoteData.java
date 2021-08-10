@@ -1,6 +1,9 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
-public class NoteData {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class NoteData implements Parcelable {
     private String name;
     private String noteText;
     private String dateOfCreation;
@@ -14,6 +17,38 @@ public class NoteData {
     public NoteData(String name){
         this.name = name;
     }
+
+    protected NoteData(Parcel in) {
+        name = in.readString();
+        noteText = in.readString();
+        dateOfCreation = in.readString();
+        dateOfChange = in.readString();
+    }
+
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(name);
+        dest.writeString(noteText);
+        dest.writeString(dateOfCreation);
+        dest.writeString(dateOfChange);
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
+        @Override
+        public NoteData createFromParcel(Parcel in) {
+            return new NoteData(in);
+        }
+
+        @Override
+        public NoteData[] newArray(int size) {
+            return new NoteData[size];
+        }
+    };
 
     public String getName() {
         return name;
@@ -46,4 +81,5 @@ public class NoteData {
     public void setDateOfChange(String dateOfChange) {
         this.dateOfChange = dateOfChange;
     }
+
 }
