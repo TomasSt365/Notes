@@ -3,18 +3,17 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 import android.annotation.SuppressLint;
 import android.content.res.Configuration;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 public class NotesListFragment extends Fragment {
-    NoteData currentNote;
+    private NoteData currentNote;
+
     public static NotesListFragment newInstance() {
         return new NotesListFragment();
     }
@@ -27,7 +26,7 @@ public class NotesListFragment extends Fragment {
     }
 
     @SuppressLint("ResourceAsColor")
-    private void initNoteListTextView(View view){
+    private void initNoteListTextView(View view) {
         LinearLayout linearLayout = (LinearLayout) view;
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
 
@@ -44,13 +43,13 @@ public class NotesListFragment extends Fragment {
                     String currentNoteName = (getResources().getStringArray(R.array.noteNames))[finalI];
                     String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[finalI];
                     currentNote = new NoteData(currentNoteName, currentNoteContent);
-                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
                                 .replace(R.id.noteContent_container, NoteContentFragment.newInstance(currentNote))
                                 .commit();
-                    }else{
+                    } else {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()

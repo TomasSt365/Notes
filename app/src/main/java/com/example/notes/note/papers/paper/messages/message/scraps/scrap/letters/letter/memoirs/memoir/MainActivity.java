@@ -17,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.notesList_container, NotesListFragment.newInstance())
                 .commit();
 
-            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.noteContent_container, NoteContentFragment.newInstance(new NoteData("","")))
+                    .replace(R.id.noteContent_container, NoteContentFragment.newInstance(new NoteData("", "")))
                     .commit();
         }
     }

@@ -17,7 +17,7 @@ public class NoteContentFragment extends Fragment {
     public static NoteContentFragment newInstance(NoteData noteData) {
         NoteContentFragment fragment = new NoteContentFragment();
         Bundle bundle = new Bundle();
-        bundle.putParcelable(DATA_KEY,noteData);
+        bundle.putParcelable(DATA_KEY, noteData);
         fragment.setArguments(bundle);
         return fragment;
     }
