@@ -9,14 +9,15 @@ public class NoteData implements Parcelable {
     private String dateOfCreation;
     private String dateOfChange;
 
-    public NoteData(String name, String noteText){
+    public NoteData(String name, String noteText) {
         this.name = name;
         this.noteText = noteText;
     }
 
-    public NoteData(String name){
+    public NoteData(String name) {
         this.name = name;
     }
+
 
     protected NoteData(Parcel in) {
         name = in.readString();

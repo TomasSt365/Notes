@@ -4,4 +4,18 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/name"
+        style="@style/nameTextViewStyle" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/noteText"
+            style="@style/noteTextTextViewStyle" />
+
+    </ScrollView>
+
 </LinearLayout>

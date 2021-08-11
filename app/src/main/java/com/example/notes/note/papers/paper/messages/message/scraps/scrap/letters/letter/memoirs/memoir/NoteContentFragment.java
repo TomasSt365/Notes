@@ -24,7 +24,7 @@ public class NoteContentFragment extends Fragment {
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
+    public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             this.noteData = getArguments().getParcelable(DATA_KEY);
@@ -37,8 +37,8 @@ public class NoteContentFragment extends Fragment {
         TextView name = view.findViewById(R.id.name);
         TextView noteText = view.findViewById(R.id.noteText);
 
-        /*name.setText(this.noteData.getName());
-        noteText.setText(this.noteData.getNoteText());TODO:падают с ошибкай этоти методы, нужно исправить*/
+        name.setText(this.noteData.getName());
+        noteText.setText(this.noteData.getNoteText());
 
         return view;
     }
