@@ -7,7 +7,7 @@
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/notesList"
+        android:id="@+id/notesList_container"
         style="@style/notesListStyle"/>
 
 

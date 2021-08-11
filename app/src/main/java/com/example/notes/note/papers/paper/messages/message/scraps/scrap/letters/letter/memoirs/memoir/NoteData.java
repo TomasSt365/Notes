@@ -5,13 +5,13 @@ import android.os.Parcelable;
 
 public class NoteData implements Parcelable {
     private String name;
-    private String noteText;
+    private String noteContent;
     private String dateOfCreation;
     private String dateOfChange;
 
-    public NoteData(String name, String noteText) {
+    public NoteData(String name, String noteContent) {
         this.name = name;
-        this.noteText = noteText;
+        this.noteContent = noteContent;
     }
 
     public NoteData(String name) {
@@ -21,7 +21,7 @@ public class NoteData implements Parcelable {
 
     protected NoteData(Parcel in) {
         name = in.readString();
-        noteText = in.readString();
+        noteContent = in.readString();
         dateOfCreation = in.readString();
         dateOfChange = in.readString();
     }
@@ -29,7 +29,7 @@ public class NoteData implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
-        dest.writeString(noteText);
+        dest.writeString(noteContent);
         dest.writeString(dateOfCreation);
         dest.writeString(dateOfChange);
     }
@@ -59,12 +59,12 @@ public class NoteData implements Parcelable {
         this.name = name;
     }
 
-    public String getNoteText() {
-        return noteText;
+    public String getNoteContent() {
+        return noteContent;
     }
 
-    public void setNoteText(String noteText) {
-        this.noteText = noteText;
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
     }
 
     public String getDateOfCreation() {

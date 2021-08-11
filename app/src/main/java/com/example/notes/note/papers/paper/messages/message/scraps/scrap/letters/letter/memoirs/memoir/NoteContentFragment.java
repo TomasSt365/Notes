@@ -6,7 +6,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 public class NoteContentFragment extends Fragment {
@@ -38,7 +37,7 @@ public class NoteContentFragment extends Fragment {
         TextView noteText = view.findViewById(R.id.noteText);
 
         name.setText(this.noteData.getName());
-        noteText.setText(this.noteData.getNoteText());
+        noteText.setText(this.noteData.getNoteContent());
 
         return view;
     }

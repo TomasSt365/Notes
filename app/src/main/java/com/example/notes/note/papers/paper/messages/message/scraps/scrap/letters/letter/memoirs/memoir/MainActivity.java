@@ -1,7 +1,6 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -15,13 +14,13 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .replace(R.id.notesList, NotesListFragment.newInstance())
+                .replace(R.id.notesList_container, NotesListFragment.newInstance())
                 .commit();
 
-        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
             getSupportFragmentManager()
                     .beginTransaction()
-                    .replace(R.id.noteContent, NoteContentFragment.newInstance(new NoteData("Name","SomethingText")))
+                    .replace(R.id.noteContent_container, NoteContentFragment.newInstance(new NoteData("","")))
                     .commit();
         }
     }

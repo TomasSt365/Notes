@@ -1,6 +1,7 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
 import android.annotation.SuppressLint;
+import android.content.res.Configuration;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,27 +14,52 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class NotesListFragment extends Fragment {
-
+    NoteData currentNote;
     public static NotesListFragment newInstance() {
         return new NotesListFragment();
     }
 
-    @SuppressLint("ResourceType")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
+        initNoteListTextView(view);
+        return view;
+    }
+
+    @SuppressLint("ResourceAsColor")
+    private void initNoteListTextView(View view){
         LinearLayout linearLayout = (LinearLayout) view;
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
 
-        for (String noteName : noteNames) {
+        for (int i = 0; i < noteNames.length; i++) {
             TextView textView = new TextView(getContext());
-            textView.setText(noteName);
+            textView.setText(noteNames[i]);
             textView.setTextColor(R.color.purple_700);
             textView.setTextSize(getResources().getInteger(R.integer.nameInListSize));
             linearLayout.addView(textView);
+            int finalI = i;
+            textView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    String currentNoteName = (getResources().getStringArray(R.array.noteNames))[finalI];
+                    String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[finalI];
+                    currentNote = new NoteData(currentNoteName, currentNoteContent);
+                    if(getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.noteContent_container, NoteContentFragment.newInstance(currentNote))
+                                .commit();
+                    }else{
+                        requireActivity()
+                                .getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.notesList_container, NoteContentFragment.newInstance(currentNote))
+                                .commit();
+                    }
+                }
+            });
         }
-
-        return view;
     }
 
 }

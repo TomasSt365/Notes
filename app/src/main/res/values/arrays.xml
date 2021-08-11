@@ -8,4 +8,12 @@
         <item>Fourth Note</item>
     </string-array>
 
+
+    <string-array name="noteContent">
+        <item>First note content</item>
+        <item>Second note content</item>
+        <item>Third note content</item>
+        <item>Fourth note content</item>
+    </string-array>
+
 </resources>
