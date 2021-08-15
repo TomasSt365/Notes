@@ -11,8 +11,11 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
-    private boolean isLandScape;
     private final Fragment notesListFragment = NotesListFragment.newInstance();
+    private static final String DATA_KEY = "KEY";
+
+    private static boolean isLandScape;
+    private NoteData currentNote;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -20,11 +23,27 @@ public class MainActivity extends AppCompatActivity {
         isLandScape = getResources()
                 .getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE;
+        currentNote = NoteContentFragment.getCurrentNote();
 
         setContentView(R.layout.activity_main);
         initToolBar();
-        showFragments(notesListFragment);
+        showContent(currentNote);
     }
+
+    private void showContent(NoteData currentNote) {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .replace(R.id.main_container, notesListFragment)
+                .commit();
+        if (isLandScape()) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("")
+                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
+                    .commit();
+        }
+    }
+
 
     //==========================TollBarWork============================================//
 
@@ -44,13 +63,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_main:
-                Fragment contentFragment = NoteContentFragment
-                        .newInstance(new NoteData(""));
-                showFragments
-                        (notesListFragment, contentFragment);
+                showContent(currentNote);
                 break;
-            case R.id.action_favorite:
-                break;
+            /*case R.id.action_favorite:
+                break;*/
             case R.id.action_settings:
                 break;
             default:
@@ -59,31 +75,14 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    //============================================================================//
 
-    //===============================ViewWork===================================================//
-
-    private void showFragments(Fragment leftFragment, Fragment rightFragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_container, leftFragment)
-                .addToBackStack("TAG")
-                .commit();
-
-        if (isLandScape) {
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_container, rightFragment)
-                    .addToBackStack("TAG")
-                    .commit();
-        }
+    public static boolean isLandScape() {
+        return isLandScape;
     }
 
-    private void showFragments(Fragment fragment) {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_container, NotesListFragment.newInstance())
-                .addToBackStack("TAG")
-                .commit();
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
-
 }

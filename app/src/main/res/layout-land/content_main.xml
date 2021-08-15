@@ -12,7 +12,6 @@
         android:id="@+id/main_container"
         style="@style/notesListStyle"/>
 
-
     <FrameLayout
         android:id="@+id/content_container"
         style="@style/noteContentStyle"/>

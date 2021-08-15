@@ -1,7 +1,6 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
 import android.annotation.SuppressLint;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,21 +42,27 @@ public class NotesListFragment extends Fragment {
                     String currentNoteName = (getResources().getStringArray(R.array.noteNames))[finalI];
                     String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[finalI];
                     currentNote = new NoteData(currentNoteName, currentNoteContent);
-                    if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                        requireActivity()
-                                .getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
-                                .commit();
-                    } else {
-                        requireActivity()
-                                .getSupportFragmentManager()
-                                .beginTransaction()
-                                .replace(R.id.main_container, NoteContentFragment.newInstance(currentNote))
-                                .commit();
-                    }
+                    showContent();
                 }
             });
+        }
+    }
+
+    private void showContent() {
+        if (MainActivity.isLandScape()) {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("")
+                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
+                    .commit();
+        } else {
+            requireActivity()
+                    .getSupportFragmentManager()
+                    .beginTransaction()
+                    .addToBackStack("")
+                    .replace(R.id.main_container, NoteContentFragment.newInstance(currentNote))
+                    .commit();
         }
     }
 

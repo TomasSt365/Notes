@@ -6,13 +6,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 public class NoteContentFragment extends Fragment {
 
     private static final String DATA_KEY = "KEY";
 
-    private NoteData noteData;
+    private static NoteData currentNote = new NoteData("");
 
     public static NoteContentFragment newInstance(NoteData noteData) {
         NoteContentFragment fragment = new NoteContentFragment();
@@ -26,7 +27,7 @@ public class NoteContentFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            this.noteData = getArguments().getParcelable(DATA_KEY);
+            currentNote = getArguments().getParcelable(DATA_KEY);
         }
     }
 
@@ -36,10 +37,13 @@ public class NoteContentFragment extends Fragment {
         TextView name = view.findViewById(R.id.name);
         TextView noteText = view.findViewById(R.id.noteText);
 
-        name.setText(this.noteData.getName());
-        noteText.setText(this.noteData.getNoteContent());
+        name.setText(currentNote.getName());
+        noteText.setText(currentNote.getNoteContent());
 
         return view;
     }
 
+    public static NoteData getCurrentNote() {
+        return currentNote;
+    }
 }

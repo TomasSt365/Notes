@@ -10,16 +10,16 @@
         app:showAsAction="always"
         tools:ignore="AlwaysShowAction,MenuTitle" />
 
-    <item
+   <!-- <item
         android:id="@+id/action_favorite"
         android:title="@string/favoriteText"
         android:icon="@drawable/ic_favorite"
-        app:showAsAction="never"/>
+        app:showAsAction="never"/>-->
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settingsText"
-        app:showAsAction="never"/>
+        app:showAsAction="always"/>
 
 </menu>
