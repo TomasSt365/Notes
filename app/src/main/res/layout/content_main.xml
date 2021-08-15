@@ -3,16 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:baselineAligned="false"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context=".MainActivity">
 
     <FrameLayout
-        android:id="@+id/notesList_container"
+        android:id="@+id/main_container"
         style="@style/notesListStyle"/>
 
-
-    <FrameLayout
-        android:id="@+id/noteContent_container"
-        style="@style/noteContentStyle"/>
 
 </LinearLayout>

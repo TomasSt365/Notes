@@ -47,13 +47,13 @@ public class NotesListFragment extends Fragment {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.noteContent_container, NoteContentFragment.newInstance(currentNote))
+                                .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
                                 .commit();
                     } else {
                         requireActivity()
                                 .getSupportFragmentManager()
                                 .beginTransaction()
-                                .replace(R.id.notesList_container, NoteContentFragment.newInstance(currentNote))
+                                .replace(R.id.main_container, NoteContentFragment.newInstance(currentNote))
                                 .commit();
                     }
                 }
