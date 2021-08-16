@@ -11,7 +11,11 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 
 public class NotesListFragment extends Fragment {
-    private NoteData currentNote;
+    private static NoteData currentNote;
+
+    public static NoteData getCurrentNote() {
+        return currentNote;
+    }
 
     public static NotesListFragment newInstance() {
         return new NotesListFragment();

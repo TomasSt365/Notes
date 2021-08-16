@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         isLandScape = getResources()
                 .getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE;
-        currentNote = NoteContentFragment.getCurrentNote();
+        currentNote = NotesListFragment.getCurrentNote();
 
         setContentView(R.layout.activity_main);
         initToolBar();

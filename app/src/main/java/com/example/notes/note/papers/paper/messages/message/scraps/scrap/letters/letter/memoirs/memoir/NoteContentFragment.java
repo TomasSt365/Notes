@@ -9,7 +9,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
-public class NoteContentFragment extends Fragment {
+public class NoteContentFragment  extends Fragment {
 
     private static final String DATA_KEY = "KEY";
 
@@ -43,7 +43,5 @@ public class NoteContentFragment extends Fragment {
         return view;
     }
 
-    public static NoteData getCurrentNote() {
-        return currentNote;
-    }
+
 }
