@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <dimen name="nameSize">35sp</dimen>
-    <integer name="nameInListSize">30</integer>
+    <dimen name="nameInListSize">30sp</dimen>
     <dimen name="noteText">20sp</dimen>
 </resources>

@@ -14,10 +14,10 @@ public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
 
     public static NoteData getCurrentNote() {
-        if(currentNote!=null){
+        if (currentNote != null) {
             return currentNote;
-        }else{
-            return  currentNote = new NoteData("");
+        } else {
+            return currentNote = new NoteData("");
         }
     }
 
@@ -28,20 +28,21 @@ public class NotesListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-        initNoteListTextView(view);
+        LinearLayout linearLayout = (LinearLayout) view;
+        initNoteListTextView(linearLayout);
         return view;
     }
 
     @SuppressLint("ResourceAsColor")
-    private void initNoteListTextView(View view) {
-        LinearLayout linearLayout = (LinearLayout) view;
+    private void initNoteListTextView(LinearLayout linearLayout) {
+
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
+        LayoutInflater layoutInflater = getLayoutInflater();
 
         for (int i = 0; i < noteNames.length; i++) {
-            TextView textView = new TextView(getContext());
-            textView.setText(noteNames[i]);
-            textView.setTextColor(R.color.purple_700);
-            textView.setTextSize(getResources().getInteger(R.integer.nameInListSize));
+            String noteName = noteNames[i];
+            TextView textView = (TextView) layoutInflater.inflate(R.layout.item, linearLayout, false);
+            textView.setText(noteName);
             linearLayout.addView(textView);
             int finalI = i;
             textView.setOnClickListener(new View.OnClickListener() {

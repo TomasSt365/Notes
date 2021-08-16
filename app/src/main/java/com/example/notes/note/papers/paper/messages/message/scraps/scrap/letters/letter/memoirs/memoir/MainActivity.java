@@ -84,7 +84,6 @@ public class MainActivity extends AppCompatActivity {
 
         getSupportFragmentManager()
                 .beginTransaction()
-                .addToBackStack("")
                 .replace(R.id.main_container, notesListFragment)
                 .commit();
         if (isLandScape()) {
