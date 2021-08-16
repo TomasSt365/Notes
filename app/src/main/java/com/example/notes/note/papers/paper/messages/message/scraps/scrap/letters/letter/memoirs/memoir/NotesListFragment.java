@@ -14,7 +14,11 @@ public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
 
     public static NoteData getCurrentNote() {
-        return currentNote;
+        if(currentNote!=null){
+            return currentNote;
+        }else{
+            return  currentNote = new NoteData("");
+        }
     }
 
     public static NotesListFragment newInstance() {
@@ -57,7 +61,6 @@ public class NotesListFragment extends Fragment {
             requireActivity()
                     .getSupportFragmentManager()
                     .beginTransaction()
-                    .addToBackStack("")
                     .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
                     .commit();
         } else {

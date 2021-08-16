@@ -12,7 +12,6 @@ import androidx.fragment.app.Fragment;
 
 public class MainActivity extends AppCompatActivity {
     private final Fragment notesListFragment = NotesListFragment.newInstance();
-    private static final String DATA_KEY = "KEY";
 
     private static boolean isLandScape;
     private NoteData currentNote;
@@ -37,13 +36,14 @@ public class MainActivity extends AppCompatActivity {
                 .commit();
         if (isLandScape()) {
             getSupportFragmentManager()
+                    .popBackStack();
+
+            getSupportFragmentManager()
                     .beginTransaction()
-                    .addToBackStack("")
                     .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
                     .commit();
         }
     }
-
 
     //==========================TollBarWork============================================//
 
