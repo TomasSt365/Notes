@@ -10,6 +10,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.Settings.SettingsFragment;
+
 public class MainActivity extends AppCompatActivity {
     private final Fragment notesListFragment = NotesListFragment.newInstance();
 
@@ -68,11 +70,20 @@ public class MainActivity extends AppCompatActivity {
             /*case R.id.action_favorite:
                 break;*/
             case R.id.action_settings:
+                onSettingsClick();
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onSettingsClick() {
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(R.id.main_container, SettingsFragment.newInstance())
+                .commit();
     }
 
     //============================================================================//

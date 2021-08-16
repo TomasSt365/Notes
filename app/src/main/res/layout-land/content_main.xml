@@ -10,10 +10,10 @@
 
     <FrameLayout
         android:id="@+id/main_container"
-        style="@style/notesListStyle"/>
+        style="@style/mainContainerStyle"/>
 
     <FrameLayout
         android:id="@+id/content_container"
-        style="@style/noteContentStyle"/>
+        style="@style/contentContainerStyle"/>
 
 </LinearLayout>
