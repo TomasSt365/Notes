@@ -70,7 +70,7 @@ public class MainActivity extends AppCompatActivity {
             /*case R.id.action_favorite:
                 break;*/
             case R.id.action_settings:
-                onSettingsClick();
+                //onSettingsClick();//некоректная работа из-за жёсткой разметки макета в LandScape
                 break;
             default:
                 break;
