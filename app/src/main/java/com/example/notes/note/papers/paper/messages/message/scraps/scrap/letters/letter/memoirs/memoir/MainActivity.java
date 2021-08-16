@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_main:
-                showContent(currentNote);
+                onActionMainClick(currentNote);
                 break;
             /*case R.id.action_favorite:
                 break;*/
@@ -76,6 +76,26 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    private void onActionMainClick(NoteData currentNote) {
+        getSupportFragmentManager()
+                .popBackStack();
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(R.id.main_container, notesListFragment)
+                .commit();
+        if (isLandScape()) {
+            getSupportFragmentManager()
+                    .popBackStack();
+
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
+                    .commit();
+        }
     }
 
     private void onSettingsClick() {
