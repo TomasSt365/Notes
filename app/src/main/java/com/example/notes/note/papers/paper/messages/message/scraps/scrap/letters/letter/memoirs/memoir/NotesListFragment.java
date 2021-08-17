@@ -1,14 +1,13 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
-import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
@@ -28,33 +27,30 @@ public class NotesListFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-        LinearLayout linearLayout = (LinearLayout) view;
-        initNoteListTextView(linearLayout);
+
+        initNotesList(view);
+
         return view;
     }
 
-    @SuppressLint("ResourceAsColor")
-    private void initNoteListTextView(LinearLayout linearLayout) {
-
+    private void initNotesList(View view) {
         String[] noteNames = getResources().getStringArray(R.array.noteNames);
-        LayoutInflater layoutInflater = getLayoutInflater();
+        RecyclerView recyclerView = view.findViewById(R.id.listRecyclerView);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
+        NoteListAdapter noteListAdapter = new NoteListAdapter(noteNames);
 
-        for (int i = 0; i < noteNames.length; i++) {
-            String noteName = noteNames[i];
-            TextView textView = (TextView) layoutInflater.inflate(R.layout.item, linearLayout, false);
-            textView.setText(noteName);
-            linearLayout.addView(textView);
-            int finalI = i;
-            textView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String currentNoteName = (getResources().getStringArray(R.array.noteNames))[finalI];
-                    String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[finalI];
-                    currentNote = new NoteData(currentNoteName, currentNoteContent);
-                    showContent();
-                }
-            });
-        }
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(layoutManager);
+        recyclerView.setAdapter(noteListAdapter);
+        noteListAdapter.setOnClickListener(new OnRecyclerViewClickListener() {
+            @Override
+            public void onClick(View view, int position) {
+                String currentNoteName = (getResources().getStringArray(R.array.noteNames))[position];
+                String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[position];
+                currentNote = new NoteData(currentNoteName, currentNoteContent);
+                showContent();
+            }
+        });
     }
 
     private void showContent() {
