@@ -29,7 +29,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_card_view, parent, false);
         return new ViewHolder(view);
     }
 
@@ -48,7 +48,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
         public ViewHolder(View itemView) {
             super(itemView);
-            noteName = itemView.findViewById(R.id.textItem);
+            noteName = itemView.findViewById(R.id.noteName);
 
             noteName.setOnClickListener(new View.OnClickListener() {
                 @Override
