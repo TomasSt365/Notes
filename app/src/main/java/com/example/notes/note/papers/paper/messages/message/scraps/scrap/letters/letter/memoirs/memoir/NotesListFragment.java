@@ -37,10 +37,11 @@ public class NotesListFragment extends Fragment {
     }
 
     private void initNotesList(View view) {
-        String[] noteNames = getResources().getStringArray(R.array.noteNames);
+        //String[] noteNames = getResources().getStringArray(R.array.noteNames);
+        NoteSource data = new NoteSourceImpl(getResources()).init();
         RecyclerView recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        NoteListAdapter noteListAdapter = new NoteListAdapter(noteNames);
+        NoteListAdapter noteListAdapter = new NoteListAdapter(data);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -48,8 +49,8 @@ public class NotesListFragment extends Fragment {
         noteListAdapter.setOnClickListener(new OnRecyclerViewClickListener() {
             @Override
             public void onClick(View view, int position) {
-                String currentNoteName = (getResources().getStringArray(R.array.noteNames))[position];
-                String currentNoteContent = (getResources().getStringArray(R.array.noteContent))[position];
+                String currentNoteName = data.getNoteData(position).getName();
+                String currentNoteContent = data.getNoteData(position).getNoteContent();
                 currentNote = new NoteData(currentNoteName, currentNoteContent);
                 showContent();
             }
