@@ -26,6 +26,26 @@ public class NoteSourceImpl implements NoteSource {
         return dataSource.get(position);
     }
 
+    @Override
+    public void addNote(NoteData data) {
+        dataSource.add(data);
+    }
+
+    @Override
+    public void editNote(int position, NoteData data) {
+        dataSource.set(position, data);
+    }
+
+    @Override
+    public void deleteNote(int position) {
+        dataSource.remove(position);
+    }
+
+    @Override
+    public void clearAllNote() {
+        dataSource.clear();
+    }
+
     public NoteSourceImpl init() {
         String[] noteNames = resources.getStringArray(R.array.noteNames);
         String[] noteContent = resources.getStringArray(R.array.noteContent);
