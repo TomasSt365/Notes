@@ -5,6 +5,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
@@ -45,12 +46,14 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
 
     public class ViewHolder extends RecyclerView.ViewHolder{
         private final TextView noteName;
+        private final CardView noteCardView;
 
         public ViewHolder(View itemView) {
             super(itemView);
             noteName = itemView.findViewById(R.id.noteName);
+            noteCardView = itemView.findViewById(R.id.item_card_view);
 
-            noteName.setOnClickListener(new View.OnClickListener() {
+            noteCardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     listener.onClick(view, getAdapterPosition());
