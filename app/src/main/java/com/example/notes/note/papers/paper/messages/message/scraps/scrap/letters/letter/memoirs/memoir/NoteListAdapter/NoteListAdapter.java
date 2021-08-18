@@ -9,6 +9,7 @@ import android.widget.ToggleButton;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
 
@@ -38,7 +39,11 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noteName.setText(dataSource.getNoteData(position).getName());
-        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite());
+        if(dataSource.getNoteData(position).isFavorite() == NoteData.TRUE){
+            holder.favoriteButton.setChecked(true);
+        }else{
+            holder.favoriteButton.setChecked(false);
+        }
 
     }
 

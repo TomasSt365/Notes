@@ -68,8 +68,9 @@ public class MainActivity extends AppCompatActivity {
             case R.id.action_main:
                 onActionMainClick(currentNote);
                 break;
-            /*case R.id.action_favorite:
-                break;*/
+            case R.id.action_favorite:
+                //TODO:no realisation
+                break;
             case R.id.action_settings:
                 //onSettingsClick();//некоректная работа из-за жёсткой разметки макета в LandScape
                 break;

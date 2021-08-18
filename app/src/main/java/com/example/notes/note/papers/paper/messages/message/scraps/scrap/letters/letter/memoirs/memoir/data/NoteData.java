@@ -7,57 +7,56 @@ import android.os.Parcelable;
 import androidx.annotation.RequiresApi;
 
 public class NoteData implements Parcelable {
+    public static final int TRUE = 1;
+    public static final int FALSE = 0;
     private String name;
     private String noteContent;
     private String dateOfCreation;
     private String dateOfChange;
-    private boolean isFavorite;
+    private int isFavorite;
 
     public NoteData() {
         this.name = "";
         this.noteContent = "";
-        this.isFavorite = false;
+        this.isFavorite = FALSE;
     }
 
     public NoteData(String name) {
         this.name = name;
         noteContent = "";
-        isFavorite = false;
+        isFavorite = FALSE;
     }
 
     public NoteData(String name, String noteContent) {
         this.name = name;
         this.noteContent = noteContent;
-        isFavorite = false;
+        isFavorite = FALSE;
     }
 
-    public NoteData(String name, String noteContent, boolean isFavorite) {
+    public NoteData(String name, String noteContent, int isFavorite) {
         this.name = name;
         this.noteContent = noteContent;
         this.isFavorite = isFavorite;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     protected NoteData(Parcel in) {
         name = in.readString();
         noteContent = in.readString();
         dateOfCreation = in.readString();
         dateOfChange = in.readString();
-        isFavorite = in.readBoolean();
+        isFavorite = in.readInt();
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.Q)
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(noteContent);
         dest.writeString(dateOfCreation);
         dest.writeString(dateOfChange);
-        dest.writeBoolean(isFavorite);
+        dest.writeInt(isFavorite);
     }
 
     public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
-        @RequiresApi(api = Build.VERSION_CODES.Q)
         @Override
         public NoteData createFromParcel(Parcel in) {
             return new NoteData(in);
@@ -106,11 +105,11 @@ public class NoteData implements Parcelable {
         this.dateOfChange = dateOfChange;
     }
 
-    public boolean isFavorite() {
+    public int isFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(boolean favorite) {
+    public void setFavorite(int favorite) {
         isFavorite = favorite;
     }
 }

@@ -8,18 +8,21 @@
         android:icon="@drawable/ic_home"
         android:title="@string/homeText"
         app:showAsAction="always"
+        android:orderInCategory="200"
         tools:ignore="AlwaysShowAction,MenuTitle" />
 
-   <!-- <item
+    <item
         android:id="@+id/action_favorite"
-        android:title="@string/favoriteText"
         android:icon="@drawable/ic_favorite"
-        app:showAsAction="never"/>-->
+        android:title="@string/favoriteText"
+        android:orderInCategory="100"
+        app:showAsAction="ifRoom" />
 
     <item
         android:id="@+id/action_settings"
         android:icon="@drawable/ic_settings"
         android:title="@string/settingsText"
-        app:showAsAction="always"/>
+        android:orderInCategory="300"
+        app:showAsAction="never" />
 
 </menu>
