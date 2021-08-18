@@ -19,8 +19,6 @@
             style="@style/textInNotesListStyle"
             tools:text="Test Text" />
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -28,6 +26,7 @@
 
             <!--хотел расположить в начале этот элемент, но не получилось(-->
             <ToggleButton
+                android:id="@+id/favoriteButton"
                 android:layout_width="@dimen/cardButton"
                 android:layout_height="@dimen/cardButton"
                 android:text=""

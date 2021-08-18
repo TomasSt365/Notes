@@ -24,7 +24,7 @@ public class NotesListFragment extends Fragment {
         if (currentNote != null) {
             return currentNote;
         } else {
-            return currentNote = new NoteData("");
+            return currentNote = new NoteData();
         }
     }
 
@@ -59,8 +59,12 @@ public class NotesListFragment extends Fragment {
                     case R.id.item_card_view:
                         String currentNoteName = data.getNoteData(position).getName();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
-                        currentNote = new NoteData(currentNoteName, currentNoteContent);
+                        boolean currentNoteIsFavorite = data.getNoteData(position).isFavorite();
+                        currentNote = new NoteData(currentNoteName, currentNoteContent, currentNoteIsFavorite);
                         showContent();
+                        break;
+                    case R.id.favoriteButton:
+                        data.getNoteData(position).setFavorite(!data.getNoteData(position).isFavorite());
                         break;
                     default:
                         break;
