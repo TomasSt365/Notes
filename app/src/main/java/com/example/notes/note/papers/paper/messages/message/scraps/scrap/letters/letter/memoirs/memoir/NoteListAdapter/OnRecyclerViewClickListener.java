@@ -3,5 +3,5 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 import android.view.View;
 
 public interface OnRecyclerViewClickListener {
-    void onClick(View view,int position);
+    void onRecyclerViewClick(View view, int position);
 }

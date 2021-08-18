@@ -1,9 +1,11 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir;
 
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -50,12 +52,19 @@ public class NotesListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(noteListAdapter);
         noteListAdapter.setOnClickListener(new OnRecyclerViewClickListener() {
+            @SuppressLint("NonConstantResourceId")
             @Override
-            public void onClick(View view, int position) {
-                String currentNoteName = data.getNoteData(position).getName();
-                String currentNoteContent = data.getNoteData(position).getNoteContent();
-                currentNote = new NoteData(currentNoteName, currentNoteContent);
-                showContent();
+            public void onRecyclerViewClick(View view, int position) {
+                switch (view.getId()){
+                    case R.id.item_card_view:
+                        String currentNoteName = data.getNoteData(position).getName();
+                        String currentNoteContent = data.getNoteData(position).getNoteContent();
+                        currentNote = new NoteData(currentNoteName, currentNoteContent);
+                        showContent();
+                        break;
+                    default:
+                        break;
+                }
             }
         });
     }
