@@ -33,6 +33,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void showContent(NoteData currentNote) {
+        getSupportFragmentManager().popBackStack();
+
         getSupportFragmentManager()
                 .beginTransaction()
                 .replace(R.id.main_container, notesListFragment)
