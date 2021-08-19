@@ -1,5 +1,6 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.NoteListAdapter;
 
+import android.annotation.SuppressLint;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -7,22 +8,30 @@ import android.widget.TextView;
 import android.widget.ToggleButton;
 
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
 
-public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder>{
+public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> {
 
     private NoteSource dataSource;
     private OnRecyclerViewClickListener listener;
+    private Fragment fragment;
+    private int clickContextPosition;
 
-    public NoteListAdapter(NoteSource dataSource) {
-        this.dataSource = dataSource;
+    public int getClickContextPosition() {
+        return clickContextPosition;
     }
-    
-    public void setOnClickListener(OnRecyclerViewClickListener listener){
+
+    public NoteListAdapter(NoteSource dataSource, Fragment fragment) {
+        this.dataSource = dataSource;
+        this.fragment = fragment;
+    }
+
+    public void setOnClickListener(OnRecyclerViewClickListener listener) {
         this.listener = listener;
     }
 
@@ -39,9 +48,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noteName.setText(dataSource.getNoteData(position).getName());
-        if(dataSource.getNoteData(position).isFavorite() == NoteData.TRUE){
+        if (dataSource.getNoteData(position).isFavorite() == NoteData.TRUE) {
             holder.favoriteButton.setChecked(true);
-        }else{
+        } else {
             holder.favoriteButton.setChecked(false);
         }
 
@@ -52,7 +61,9 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         return dataSource.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements OnRecyclerViewClickListener, View.OnClickListener{
+    public class ViewHolder extends RecyclerView.ViewHolder implements OnRecyclerViewClickListener,
+            View.OnClickListener, View.OnLongClickListener {
+
         private final CardView noteCardView;
         private final TextView noteName;
         private final ToggleButton favoriteButton;
@@ -62,8 +73,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
             noteName = itemView.findViewById(R.id.noteName);
             noteCardView = itemView.findViewById(R.id.item_card_view);
             favoriteButton = itemView.findViewById(R.id.favoriteButton);
+            fragment.registerForContextMenu(noteCardView);
 
             noteCardView.setOnClickListener(this);
+            noteCardView.setOnLongClickListener(this);
             favoriteButton.setOnClickListener(this);
         }
 
@@ -75,6 +88,20 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         @Override
         public void onClick(View view) {
             onRecyclerViewClick(view, getAdapterPosition());
+        }
+
+        @SuppressLint("NonConstantResourceId")
+        @Override
+        public boolean onLongClick(View view) {
+            switch (view.getId()) {
+                case R.id.item_card_view:
+                    clickContextPosition = getAdapterPosition();
+                    noteCardView.showContextMenu();
+                    return true;
+                default:
+                    break;
+            }
+            return false;
         }
     }
 }

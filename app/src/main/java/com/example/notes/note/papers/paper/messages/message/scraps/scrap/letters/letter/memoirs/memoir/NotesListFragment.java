@@ -2,6 +2,7 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -53,7 +54,7 @@ public class NotesListFragment extends Fragment {
         data = new NoteSourceImpl(getResources()).init();
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        noteListAdapter = new NoteListAdapter(data);
+        noteListAdapter = new NoteListAdapter(data, this);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -71,9 +72,9 @@ public class NotesListFragment extends Fragment {
                         showContent();
                         break;
                     case R.id.favoriteButton:
-                        if(data.getNoteData(position).isFavorite() == NoteData.TRUE){
+                        if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
                             data.getNoteData(position).setFavorite(NoteData.FALSE);
-                        }else{
+                        } else {
                             data.getNoteData(position).setFavorite(NoteData.TRUE);
                         }
                         break;
@@ -101,8 +102,7 @@ public class NotesListFragment extends Fragment {
         }
     }
 
-    //========================MenuWork==================================
-
+    //========================MainMenuWork==================================
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
@@ -110,14 +110,14 @@ public class NotesListFragment extends Fragment {
         inflater.inflate(R.menu.notes_list_fragment, menu);
     }
 
-    @SuppressLint("NonConstantResourceId")
+    @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionAdd:
                 data.addNote(new NoteData());
-                noteListAdapter.notifyItemChanged(data.size()-1);
-                recyclerView.scrollToPosition(data.size()-1);
+                noteListAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(0);
                 break;
             case R.id.actionClearAll:
                 data.clearAllNote();
@@ -127,5 +127,33 @@ public class NotesListFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    //========================ContextMenuWork==================================
+
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        super.onCreateContextMenu(menu, v, menuInfo);
+        requireActivity().getMenuInflater().inflate(R.menu.context_recycler_view, menu);
+    }
+
+    @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        int position = noteListAdapter.getClickContextPosition();
+        switch (item.getItemId()){
+            case R.id.action_edit:
+                //TODO: no realisation
+                noteListAdapter.notifyDataSetChanged();
+                break;
+            case R.id.action_delete:
+                noteListAdapter.notifyDataSetChanged();
+                data.deleteNote(position);
+                break;
+            default:
+                break;
+        }
+        return super.onContextItemSelected(item);
     }
 }

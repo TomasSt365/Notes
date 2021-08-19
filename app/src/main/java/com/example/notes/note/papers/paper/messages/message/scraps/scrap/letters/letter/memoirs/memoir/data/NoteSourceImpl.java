@@ -28,7 +28,7 @@ public class NoteSourceImpl implements NoteSource {
 
     @Override
     public void addNote(NoteData data) {
-        dataSource.add(data);
+        dataSource.add(0,data);
     }
 
     @Override
