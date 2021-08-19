@@ -57,7 +57,7 @@ public class NotesListFragment extends Fragment {
         data = new NoteSourceImpl(getResources());
         if (isFavoriteList) {
             favoriteData = data.getFavoriteData();
-            data = favoriteData;
+            data = favoriteData;//TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
         }
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
