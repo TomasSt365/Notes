@@ -1,24 +1,43 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="nameTextViewStyle">
+    <style name="titleStyle">
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:gravity">center</item>
-        <item name="android:textSize">@dimen/nameSize</item>
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:textSize">@dimen/titleSize</item>
         <item name="android:textColor">@color/purple_700</item>
+        <item name="android:textStyle">bold</item>
+        <item name="android:fontFamily">sans-serif-condensed</item>
     </style>
 
-    <style name="noteTextTextViewStyle">
-        <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textSize">@dimen/noteText</item>
+    <style name="titleStyle.NotesList">
+        <item name="android:textSize">@dimen/nameInListSize</item>
     </style>
 
-    <style name="contentContainerStyle">
+    <style name="titleStyle.EditTextView">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:hint">@string/titleEditTextPromptText</item>
+        <item name="android:textColorHint">@android:color/darker_gray</item>
+        <item name="app:flow_maxElementsWrap">20</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:gravity">start|bottom</item>
+    </style>
+
+    <style name="noteContentStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
-        <item name="android:orientation">vertical</item>
+        <item name="android:textSize">@dimen/noteContentSize</item>
+        <item name="android:textColor">@android:color/background_dark</item>
+    </style>
+
+    <style name="noteContentStyle.EditText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">0dp</item>
+        <item name="android:inputType">text</item>
+        <item name="android:backgroundTint">@android:color/transparent</item>
+        <item name="android:singleLine">false</item>
+        <item name="android:scrollbars">horizontal</item>
+        <item name="android:gravity">start</item>
     </style>
 
     <style name="mainContainerStyle">
@@ -27,11 +46,6 @@
         <item name="android:orientation">vertical</item>
     </style>
 
-    <style name="textInNotesListStyle">
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:textColor">@color/purple_700</item>
-        <item name="android:textSize">@dimen/nameInListSize</item>
-    </style>
+    <style name="mainContainerStyle.contentContainerStyle" />
 
 </resources>

@@ -19,7 +19,8 @@
 
             <TextView
                 android:id="@+id/noteName"
-                style="@style/textInNotesListStyle"
+                style="@style/titleStyle.NotesList"
+
                 app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -41,14 +42,13 @@
 
             <ToggleButton
                 android:id="@+id/favoriteButton"
-                android:layout_width="@dimen/cardButton"
-                android:layout_height="@dimen/cardButton"
+                android:layout_width="@dimen/cardFavoriteButtonSize"
+                android:layout_height="@dimen/cardFavoriteButtonSize"
                 android:background="@drawable/favorite_button_background"
-
-                android:gravity="end"
                 android:text=""
                 android:textOff=""
                 android:textOn=""
+
                 app:layout_constraintBottom_toTopOf="@+id/guideline2"
                 app:layout_constraintEnd_toStartOf="@+id/guideline1" />
 
@@ -57,6 +57,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_note"
+
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/guideline2"

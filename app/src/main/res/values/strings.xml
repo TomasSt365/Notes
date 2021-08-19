@@ -7,4 +7,5 @@
     <string name="actionDeleteText">Delete</string>
     <string name="actionAddText">Add</string>
     <string name="actionClearAllText">Clear all</string>
+    <string name="titleEditTextPromptText">Title</string>
 </resources>

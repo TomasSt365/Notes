@@ -2,20 +2,27 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
     android:background="@color/notesListBackgroundColor"
     android:orientation="vertical">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/name"
-        style="@style/nameTextViewStyle" />
+        android:id="@+id/noteTitle"
+        style="@style/titleStyle.NotesList"
+        tools:text="Text" />
+
+    <androidx.legacy.widget.Space
+        android:layout_width="0dp"
+        android:layout_height="10dp"/>
 
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <androidx.appcompat.widget.AppCompatTextView
-            android:id="@+id/noteText"
-            style="@style/noteTextTextViewStyle" />
+            android:id="@+id/noteContent"
+            style="@style/noteContentStyle"
+            tools:text="Text" />
 
     </ScrollView>
 
