@@ -4,52 +4,63 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item_card_view"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
+    android:layout_height="135dp"
     android:layout_margin="10dp"
-    app:cardCornerRadius="20dp"
+    app:cardCornerRadius="30dp"
     app:cardElevation="20dp">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/noteName"
-            style="@style/textInNotesListStyle"
-            tools:text="Test Text" />
-
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="end">
+            android:layout_height="wrap_content">
 
-            <!--хотел расположить в начале этот элемент, но не получилось(-->
+            <TextView
+                android:id="@+id/noteName"
+                style="@style/textInNotesListStyle"
+                app:layout_constraintEnd_toStartOf="@+id/favoriteButton"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:text="Test Text" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline1"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layout_constraintGuide_percent="0.97" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.32" />
+
             <ToggleButton
                 android:id="@+id/favoriteButton"
                 android:layout_width="@dimen/cardButton"
                 android:layout_height="@dimen/cardButton"
+                android:background="@drawable/favorite_button_background"
+
+                android:gravity="end"
                 android:text=""
-                android:textOn=""
                 android:textOff=""
-                android:background="@drawable/favorite_button_background"/>
+                android:textOn=""
+                app:layout_constraintBottom_toTopOf="@+id/guideline2"
+                app:layout_constraintEnd_toStartOf="@+id/guideline1" />
 
-            <ImageButton
-                android:id="@+id/delete"
-                android:layout_width="@dimen/cardButton"
-                android:layout_height="@dimen/cardButton"
-                android:background="@drawable/ic_delete" />
+            <ImageView
+                android:id="@+id/imageView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_note"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline2"
+                tools:ignore="ContentDescription" />
 
-            <ImageButton
-                android:id="@+id/edit"
-                android:layout_width="@dimen/cardButton"
-                android:layout_height="@dimen/cardButton"
-                android:layout_gravity="end"
-                android:background="@drawable/ic_edit" />
-
-        </LinearLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-    </LinearLayout>
+
 
 </androidx.cardview.widget.CardView>
