@@ -14,8 +14,6 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 
 public class MainActivity extends AppCompatActivity {
-    private final Fragment notesListFragment = NotesListFragment.newInstance();
-
     private static boolean isLandScape;
     private NoteData currentNote;
 
@@ -29,11 +27,14 @@ public class MainActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_main);
         initToolBar();
-        showContent(currentNote);
+        showContent(currentNote, false);
     }
 
-    private void showContent(NoteData currentNote) {
-        getSupportFragmentManager().popBackStack();
+    private void showContent(NoteData currentNote, boolean isFavoriteList) {
+        Fragment notesListFragment = NotesListFragment.newInstance(isFavoriteList);
+
+        getSupportFragmentManager()
+                .popBackStack();
 
         getSupportFragmentManager()
                 .beginTransaction()
@@ -68,10 +69,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_main:
-                onActionMainClick(currentNote);
+                showContent(currentNote,false);
                 break;
             case R.id.action_favorite:
-                //TODO:no realisation
+                showContent(currentNote,true);
                 break;
             case R.id.action_settings:
                 //onSettingsClick();//некоректная работа из-за жёсткой разметки макета в LandScape
@@ -80,25 +81,6 @@ public class MainActivity extends AppCompatActivity {
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void onActionMainClick(NoteData currentNote) {
-        getSupportFragmentManager()
-                .popBackStack();
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_container, notesListFragment)
-                .commit();
-        if (isLandScape()) {
-            getSupportFragmentManager()
-                    .popBackStack();
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
-                    .commit();
-        }
     }
 
     private void onSettingsClick() {

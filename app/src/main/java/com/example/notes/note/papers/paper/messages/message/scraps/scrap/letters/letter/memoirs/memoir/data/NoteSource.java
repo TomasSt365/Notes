@@ -7,4 +7,5 @@ public interface NoteSource {
     void editNote(int position, NoteData data);
     void deleteNote(int position);
     void clearAllNote();
+    NoteSource getFavoriteData();
 }

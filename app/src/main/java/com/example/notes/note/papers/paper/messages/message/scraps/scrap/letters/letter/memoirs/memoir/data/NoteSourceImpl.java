@@ -14,6 +14,11 @@ public class NoteSourceImpl implements NoteSource {
     public NoteSourceImpl(Resources resources) {
         dataSource = new ArrayList<>();
         this.resources = resources;
+        init();
+    }
+
+    public NoteSourceImpl(List<NoteData> dataSource) {
+        this.dataSource = dataSource;
     }
 
     @Override
@@ -28,7 +33,7 @@ public class NoteSourceImpl implements NoteSource {
 
     @Override
     public void addNote(NoteData data) {
-        dataSource.add(0,data);
+        dataSource.add(0, data);
     }
 
     @Override
@@ -46,7 +51,18 @@ public class NoteSourceImpl implements NoteSource {
         dataSource.clear();
     }
 
-    public NoteSourceImpl init() {
+    @Override
+    public NoteSource getFavoriteData() {
+        List<NoteData> favoriteData = new ArrayList<>();
+        for (int i = 0; i < dataSource.size(); i++){
+            if(this.getNoteData(i).isFavorite() == NoteData.TRUE){
+                favoriteData.add(this.getNoteData(i));
+            }
+        }
+        return new NoteSourceImpl(favoriteData);
+    }
+
+    private NoteSourceImpl init() {
         String[] noteNames = resources.getStringArray(R.array.noteNames);
         String[] noteContent = resources.getStringArray(R.array.noteContent);
         for (int i = 0; i < noteNames.length; i++) {

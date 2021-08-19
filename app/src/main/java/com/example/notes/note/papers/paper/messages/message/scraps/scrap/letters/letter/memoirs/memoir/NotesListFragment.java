@@ -22,7 +22,9 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 
 public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
+    private static boolean isFavoriteList;
     private NoteSource data;
+    private NoteSource favoriteData;
     private NoteListAdapter noteListAdapter;
     private RecyclerView recyclerView;
 
@@ -34,7 +36,8 @@ public class NotesListFragment extends Fragment {
         }
     }
 
-    public static NotesListFragment newInstance() {
+    public static NotesListFragment newInstance(boolean isFavoriteList) {
+        NotesListFragment.isFavoriteList = isFavoriteList;
         return new NotesListFragment();
     }
 
@@ -43,15 +46,19 @@ public class NotesListFragment extends Fragment {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
 
-        initNotesList(view);
+        initNotesList(view, isFavoriteList);
 
         return view;
     }
 
     //=======================ContentWork================================
 
-    private void initNotesList(View view) {
-        data = new NoteSourceImpl(getResources()).init();
+    private void initNotesList(View view, boolean isFavoriteList) {
+        data = new NoteSourceImpl(getResources());
+        if (isFavoriteList) {
+            favoriteData = data.getFavoriteData();
+            data = favoriteData;
+        }
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         noteListAdapter = new NoteListAdapter(data, this);
@@ -60,7 +67,7 @@ public class NotesListFragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         recyclerView.setAdapter(noteListAdapter);
         noteListAdapter.setOnClickListener(new OnRecyclerViewClickListener() {
-            @SuppressLint("NonConstantResourceId")
+            @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
             @Override
             public void onRecyclerViewClick(View view, int position) {
                 switch (view.getId()) {
@@ -74,6 +81,10 @@ public class NotesListFragment extends Fragment {
                     case R.id.favoriteButton:
                         if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
                             data.getNoteData(position).setFavorite(NoteData.FALSE);
+                            if(isFavoriteList){
+                                data.deleteNote(position);
+                                noteListAdapter.notifyDataSetChanged();
+                            }
                         } else {
                             data.getNoteData(position).setFavorite(NoteData.TRUE);
                         }
@@ -115,7 +126,11 @@ public class NotesListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionAdd:
-                data.addNote(new NoteData());
+                if (isFavoriteList) {
+                    data.addNote(new NoteData(NoteData.TRUE));
+                } else {
+                    data.addNote(new NoteData());
+                }
                 noteListAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(0);
                 break;
@@ -142,14 +157,14 @@ public class NotesListFragment extends Fragment {
     @Override
     public boolean onContextItemSelected(MenuItem item) {
         int position = noteListAdapter.getClickContextPosition();
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_edit:
                 //TODO: no realisation
                 noteListAdapter.notifyDataSetChanged();
                 break;
             case R.id.action_delete:
-                noteListAdapter.notifyDataSetChanged();
                 data.deleteNote(position);
+                noteListAdapter.notifyDataSetChanged();
                 break;
             default:
                 break;

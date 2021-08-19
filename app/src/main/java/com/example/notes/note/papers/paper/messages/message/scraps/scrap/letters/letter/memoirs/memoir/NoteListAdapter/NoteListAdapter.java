@@ -16,10 +16,9 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> {
-
     private NoteSource dataSource;
     private OnRecyclerViewClickListener listener;
-    private Fragment fragment;
+    private final Fragment fragment;
     private int clickContextPosition;
 
     public int getClickContextPosition() {
@@ -53,7 +52,6 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         } else {
             holder.favoriteButton.setChecked(false);
         }
-
     }
 
     @Override

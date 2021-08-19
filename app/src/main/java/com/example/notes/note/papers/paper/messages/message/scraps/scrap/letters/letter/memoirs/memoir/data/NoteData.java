@@ -27,6 +27,12 @@ public class NoteData implements Parcelable {
         isFavorite = FALSE;
     }
 
+    public NoteData(int isFavorite) {
+        this.name = "";
+        this.noteContent = "";
+        this.isFavorite = isFavorite;
+    }
+
     public NoteData(String name, String noteContent) {
         this.name = name;
         this.noteContent = noteContent;
