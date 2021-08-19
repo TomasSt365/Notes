@@ -3,4 +3,8 @@
     <string name="favoriteText">Favorite</string>
     <string name="settingsText">Settings</string>
     <string name="homeText">Home</string>
+    <string name="actionEditText">Edit</string>
+    <string name="actionDeleteText">Delete</string>
+    <string name="actionAddText">Add</string>
+    <string name="actionClearAllText">Clear all</string>
 </resources>

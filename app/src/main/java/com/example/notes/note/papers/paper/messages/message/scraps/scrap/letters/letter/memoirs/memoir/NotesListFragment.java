@@ -21,6 +21,9 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 
 public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
+    private NoteSource data;
+    private NoteListAdapter noteListAdapter;
+    private RecyclerView recyclerView;
 
     public static NoteData getCurrentNote() {
         if (currentNote != null) {
@@ -47,10 +50,10 @@ public class NotesListFragment extends Fragment {
     //=======================ContentWork================================
 
     private void initNotesList(View view) {
-        NoteSource data = new NoteSourceImpl(getResources()).init();
-        RecyclerView recyclerView = view.findViewById(R.id.listRecyclerView);
+        data = new NoteSourceImpl(getResources()).init();
+        recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        NoteListAdapter noteListAdapter = new NoteListAdapter(data);
+        noteListAdapter = new NoteListAdapter(data);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -112,8 +115,13 @@ public class NotesListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionAdd:
+                data.addNote(new NoteData());
+                noteListAdapter.notifyItemChanged(data.size()-1);
+                recyclerView.scrollToPosition(data.size()-1);
                 break;
             case R.id.actionClearAll:
+                data.clearAllNote();
+                noteListAdapter.notifyDataSetChanged();
                 break;
             default:
                 break;
