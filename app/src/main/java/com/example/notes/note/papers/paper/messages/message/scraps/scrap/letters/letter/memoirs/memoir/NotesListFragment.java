@@ -81,7 +81,7 @@ public class NotesListFragment extends Fragment {
                     case R.id.favoriteButton:
                         if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
                             data.getNoteData(position).setFavorite(NoteData.FALSE);
-                            if(isFavoriteList){
+                            if (isFavoriteList) {
                                 data.deleteNote(position);
                                 noteListAdapter.notifyDataSetChanged();
                             }
@@ -111,6 +111,15 @@ public class NotesListFragment extends Fragment {
                     .replace(R.id.main_container, NoteContentFragment.newInstance(currentNote))
                     .commit();
         }
+    }
+
+    private void showEditFragment() {
+        requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(R.id.main_container, EditFragment.newInstance())
+                .commit();
     }
 
     //========================MainMenuWork==================================
@@ -159,8 +168,8 @@ public class NotesListFragment extends Fragment {
         int position = noteListAdapter.getClickContextPosition();
         switch (item.getItemId()) {
             case R.id.action_edit:
-                //TODO: no realisation
-                noteListAdapter.notifyDataSetChanged();
+                showEditFragment();
+                //noteListAdapter.notifyDataSetChanged();
                 break;
             case R.id.action_delete:
                 data.deleteNote(position);
