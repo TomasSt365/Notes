@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir">
 
+    <uses-permission android:name="android.permission.VIBRATE"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -19,5 +21,7 @@
             </intent-filter>
         </activity>
     </application>
+
+
 
 </manifest>
