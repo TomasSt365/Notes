@@ -1,4 +1,4 @@
-package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.NoteListAdapter;
+package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.NoteListAdapter;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
