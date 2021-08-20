@@ -14,7 +14,6 @@ public class Publisher {
 
     public void subscribe(Observer observer){
         observers.add(observer);
-        unsubscribe(observer);
     }
 
     public void unsubscribe(Observer observer){

@@ -235,12 +235,13 @@ public class NotesListFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void onActionEditClick(int position) {
         showEditFragment(data.getNoteData(position));
+        data.deleteNote(position);
         publisher.subscribe(new Observer() {
             @Override
             public void updateState(NoteData note) {//TODO:не вызываеться
                 data.addNote(note);
                 noteListAdapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(position);
+                recyclerView.smoothScrollToPosition(0);
             }
         });
     }

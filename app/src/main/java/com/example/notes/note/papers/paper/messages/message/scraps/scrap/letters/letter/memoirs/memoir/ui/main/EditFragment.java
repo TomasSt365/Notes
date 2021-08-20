@@ -71,6 +71,7 @@ public class EditFragment extends Fragment {
     private void fillNoteInEditMode() {
         titleEdit.setText(note.getTitle());
         noteContentEdit.setText(note.getNoteContent());
+        //TODO:не забыть считать значение кнопки закладок(после добавления)
     }
 
     private void initView(View view) {
@@ -87,13 +88,20 @@ public class EditFragment extends Fragment {
     private NoteData collectNote() {
         String title = titleEdit.getText().toString();
         String noteContent = noteContentEdit.getText().toString();
+        byte isFavorite;
+        if(note!=null){
+            isFavorite = note.isFavorite();
+        }else {
+            isFavorite = NoteData.FALSE;
+        }//TODO:добавить кноку в мекет(В закладках/не закладках) и считывать с неё
 
-        return new NoteData(title, noteContent);
+        return new NoteData(title, noteContent, isFavorite);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
         publisher.notifyTask(note);
+        publisher = null;
     }
 }
