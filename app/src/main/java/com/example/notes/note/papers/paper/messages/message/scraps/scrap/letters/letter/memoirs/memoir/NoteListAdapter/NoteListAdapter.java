@@ -1,7 +1,5 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.NoteListAdapter;
 
-import static androidx.core.content.ContextCompat.getSystemService;
-
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Build;
@@ -53,11 +51,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noteName.setText(dataSource.getNoteData(position).getName());
-        if (dataSource.getNoteData(position).isFavorite() == NoteData.TRUE) {
-            holder.favoriteButton.setChecked(true);
-        } else {
-            holder.favoriteButton.setChecked(false);
-        }
+        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite() == NoteData.TRUE);
     }
 
     @Override
@@ -99,22 +93,26 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         public boolean onLongClick(View view) {
             switch (view.getId()) {
                 case R.id.item_card_view:
-                    Vibrator v = (Vibrator) fragment
-                            .requireActivity()
-                            .getSystemService(Context.VIBRATOR_SERVICE);
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                        v.vibrate(VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE));
-                    } else {
-                        //deprecated in API 26
-                        v.vibrate(25);
-                    }
-                    clickContextPosition = getAdapterPosition();
-                    noteCardView.showContextMenu();
-                    return true;
+                    return onLongItemCardViewClick();
                 default:
                     break;
             }
             return false;
+        }
+
+        private boolean onLongItemCardViewClick() {
+            Vibrator v = (Vibrator) fragment
+                    .requireActivity()
+                    .getSystemService(Context.VIBRATOR_SERVICE);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                v.vibrate(VibrationEffect.createOneShot(25, VibrationEffect.DEFAULT_AMPLITUDE));
+            } else {
+                //deprecated in API 26
+                v.vibrate(25);
+            }
+            clickContextPosition = getAdapterPosition();
+            noteCardView.showContextMenu();
+            return true;
         }
     }
 }

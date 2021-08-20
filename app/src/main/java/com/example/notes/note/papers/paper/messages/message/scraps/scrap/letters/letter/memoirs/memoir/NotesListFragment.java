@@ -74,7 +74,7 @@ public class NotesListFragment extends Fragment {
                     case R.id.item_card_view:
                         String currentNoteName = data.getNoteData(position).getName();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
-                        int currentNoteIsFavorite = data.getNoteData(position).isFavorite();
+                        byte currentNoteIsFavorite = data.getNoteData(position).isFavorite();
                         currentNote = new NoteData(currentNoteName, currentNoteContent, currentNoteIsFavorite);
                         showContent();
                         break;
@@ -135,6 +135,8 @@ public class NotesListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionAdd:
+                showEditFragment();
+                ///TODO:data? нужно как-то получить из EditFragment
                 if (isFavoriteList) {
                     data.addNote(new NoteData(NoteData.TRUE));
                 } else {

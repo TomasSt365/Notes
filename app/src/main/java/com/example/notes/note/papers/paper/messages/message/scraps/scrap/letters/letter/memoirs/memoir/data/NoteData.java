@@ -1,19 +1,16 @@
 package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data;
 
-import android.os.Build;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import androidx.annotation.RequiresApi;
-
 public class NoteData implements Parcelable {
-    public static final int TRUE = 1;
-    public static final int FALSE = 0;
+    public static final byte TRUE = 1;
+    public static final byte FALSE = 0;
     private String name;
     private String noteContent;
     private String dateOfCreation;
     private String dateOfChange;
-    private int isFavorite;
+    private byte isFavorite;
 
     public NoteData() {
         this.name = "";
@@ -27,7 +24,7 @@ public class NoteData implements Parcelable {
         isFavorite = FALSE;
     }
 
-    public NoteData(int isFavorite) {
+    public NoteData(byte isFavorite) {
         this.name = "";
         this.noteContent = "";
         this.isFavorite = isFavorite;
@@ -39,7 +36,7 @@ public class NoteData implements Parcelable {
         isFavorite = FALSE;
     }
 
-    public NoteData(String name, String noteContent, int isFavorite) {
+    public NoteData(String name, String noteContent, byte isFavorite) {
         this.name = name;
         this.noteContent = noteContent;
         this.isFavorite = isFavorite;
@@ -50,7 +47,7 @@ public class NoteData implements Parcelable {
         noteContent = in.readString();
         dateOfCreation = in.readString();
         dateOfChange = in.readString();
-        isFavorite = in.readInt();
+        isFavorite = in.readByte();
     }
 
     @Override
@@ -59,7 +56,7 @@ public class NoteData implements Parcelable {
         dest.writeString(noteContent);
         dest.writeString(dateOfCreation);
         dest.writeString(dateOfChange);
-        dest.writeInt(isFavorite);
+        dest.writeByte(isFavorite);
     }
 
     public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
@@ -111,11 +108,11 @@ public class NoteData implements Parcelable {
         this.dateOfChange = dateOfChange;
     }
 
-    public int isFavorite() {
+    public byte isFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(int favorite) {
+    public void setFavorite(byte favorite) {
         isFavorite = favorite;
     }
 }
