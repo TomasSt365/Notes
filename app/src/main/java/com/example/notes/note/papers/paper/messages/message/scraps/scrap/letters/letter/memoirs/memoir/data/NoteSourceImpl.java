@@ -64,10 +64,13 @@ public class NoteSourceImpl implements NoteSource {
 
     private NoteSourceImpl init() {
         String[] noteNames = resources.getStringArray(R.array.noteNames);
-        String[] noteContent = resources.getStringArray(R.array.noteContent);
+        String[] notesContent = resources.getStringArray(R.array.noteContent);
+        //boolean[] notesIsFavorite = resources.getBoolean(R.array.);
+        //TODO: в дальнейшем данные в этом месте будут читаться из базы данных
         for (int i = 0; i < noteNames.length; i++) {
-            dataSource.add(new NoteData(noteNames[i], noteContent[i]));
+            dataSource.add(new NoteData(noteNames[i], notesContent[i]/*, notesIsFavorite[i]*/));
         }
+        //TODO: FavoriteList пока не может работать, нет знаний по базе данных
         return this;
     }
 }

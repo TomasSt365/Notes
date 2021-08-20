@@ -6,6 +6,7 @@ import android.os.Parcelable;
 public class NoteData implements Parcelable {
     public static final byte TRUE = 1;
     public static final byte FALSE = 0;
+
     private String name;
     private String noteContent;
     private String dateOfCreation;
@@ -36,7 +37,9 @@ public class NoteData implements Parcelable {
         isFavorite = FALSE;
     }
 
-    public NoteData(String name, String noteContent, byte isFavorite) {
+    public NoteData(String name, String noteContent, byte isFavorite
+            /*хотел сделать так чтобы при вызове конструктора можно было присылать TRUE(1),FALSE(0),
+            это было в предыдущем курсе, но я забыл как это делаеться*/) {
         this.name = name;
         this.noteContent = noteContent;
         this.isFavorite = isFavorite;
