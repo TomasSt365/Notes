@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.Settings.SettingsFragment;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NoteContentFragment;
@@ -18,18 +19,28 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 public class MainActivity extends AppCompatActivity {
     private static boolean isLandScape;
     private NoteData currentNote;
+    private Publisher publisher;
+
+    public Publisher getPublisher() {
+        return publisher;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+
+        initField();
+        initToolBar();
+        showContent(currentNote, false);
+    }
+
+    private void initField() {
         isLandScape = getResources()
                 .getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE;
         currentNote = NotesListFragment.getCurrentNote();
-
-        setContentView(R.layout.activity_main);
-        initToolBar();
-        showContent(currentNote, false);
+        publisher = new Publisher();
     }
 
     private void showContent(NoteData currentNote, boolean isFavoriteList) {

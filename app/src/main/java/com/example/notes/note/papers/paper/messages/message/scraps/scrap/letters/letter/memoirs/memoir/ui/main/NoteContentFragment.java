@@ -39,7 +39,7 @@ public class NoteContentFragment  extends Fragment {
         TextView name = view.findViewById(R.id.noteTitle);
         TextView noteText = view.findViewById(R.id.noteContent);
 
-        name.setText(currentNote.getName());
+        name.setText(currentNote.getTitle());
         noteText.setText(currentNote.getNoteContent());
 
         return view;

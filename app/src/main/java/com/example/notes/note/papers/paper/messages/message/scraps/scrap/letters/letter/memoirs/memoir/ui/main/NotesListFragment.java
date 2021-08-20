@@ -2,8 +2,6 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -13,6 +11,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -22,10 +22,10 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSourceImpl;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Observer;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.NoteListAdapter.NoteListAdapter;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.NoteListAdapter.OnRecyclerViewClickListener;
-
-import java.util.ArrayList;
 
 public class NotesListFragment extends Fragment {
     public static final String SP_KEY = "SP_KEY";
@@ -38,6 +38,7 @@ public class NotesListFragment extends Fragment {
     private NoteSource favoriteData;
     private NoteListAdapter noteListAdapter;
     private RecyclerView recyclerView;
+    private Publisher publisher;
 
     public static NoteData getCurrentNote() {
         if (currentNote != null) {
@@ -53,23 +54,39 @@ public class NotesListFragment extends Fragment {
     }
 
     @Override
+    public void onAttach(@NonNull Context context) {
+        super.onAttach(context);
+        publisher = ((MainActivity) context).getPublisher();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        publisher = null;
+    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        data = new NoteSourceImpl(getResources());
+        if (isFavoriteList) {
+            favoriteData = data.getFavoriteData();
+            data = favoriteData;//TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
+        }
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
+
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-
         initNotesList(view, isFavoriteList);
-
         return view;
     }
 
     //=======================ContentWork================================
 
     private void initNotesList(View view, boolean isFavoriteList) {
-        data = new NoteSourceImpl(getResources());
-        if (isFavoriteList) {
-            favoriteData = data.getFavoriteData();
-            data = favoriteData;//TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
-        }
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         noteListAdapter = new NoteListAdapter(data, this);
@@ -83,16 +100,16 @@ public class NotesListFragment extends Fragment {
             public void onRecyclerViewClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.item_card_view:
-                        String currentNoteName = data.getNoteData(position).getName();
+                        String currentNoteName = data.getNoteData(position).getTitle();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
                         byte currentNoteIsFavorite = data.getNoteData(position).isFavorite();
                         currentNote = new NoteData(currentNoteName, currentNoteContent, currentNoteIsFavorite);
                         showContent();
                         break;
                     case R.id.favoriteButton:
-                        if(data.getNoteData(position).isFavorite() == NoteData.TRUE){
+                        if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
                             data.getNoteData(position).setFavorite(NoteData.FALSE);
-                        }else
+                        } else
                             data.getNoteData(position).setFavorite(NoteData.TRUE);
                         //writeIsFavorite(requireActivity(), position);
                         //TODO:чтобы реализовать закладки данные должны записываться и извлекаться из базы данных,
@@ -137,6 +154,15 @@ public class NotesListFragment extends Fragment {
                 .commit();
     }
 
+    private void showEditFragment(NoteData note) {
+        requireActivity()
+                .getSupportFragmentManager()
+                .beginTransaction()
+                .addToBackStack("")
+                .replace(R.id.main_container, EditFragment.newInstance(note))
+                .commit();
+    }
+
     //========================MainMenuWork==================================
 
     @Override
@@ -150,15 +176,7 @@ public class NotesListFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.actionAdd:
-                showEditFragment();
-                ///TODO:data? нужно как-то получить из EditFragment
-                if (isFavoriteList) {
-                    data.addNote(new NoteData(NoteData.TRUE));
-                } else {
-                    data.addNote(new NoteData());
-                }
-                noteListAdapter.notifyDataSetChanged();
-                recyclerView.smoothScrollToPosition(0);
+                onActionAddClick();
                 break;
             case R.id.actionClearAll:
                 data.clearAllNote();
@@ -168,6 +186,23 @@ public class NotesListFragment extends Fragment {
                 break;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void onActionAddClick() {
+        showEditFragment();
+        publisher.subscribe(new Observer() {
+            @Override
+            public void updateState(NoteData note) {
+                if (isFavoriteList) {
+                    note.setFavorite(NoteData.TRUE);
+                }
+                data.addNote(note);
+                noteListAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(0);
+            }
+        });
+
     }
 
     //========================ContextMenuWork==================================
@@ -185,8 +220,7 @@ public class NotesListFragment extends Fragment {
         int position = noteListAdapter.getClickContextPosition();
         switch (item.getItemId()) {
             case R.id.action_edit:
-                showEditFragment();
-                //noteListAdapter.notifyDataSetChanged();
+                onActionEditClick(position);
                 break;
             case R.id.action_delete:
                 data.deleteNote(position);
@@ -196,6 +230,19 @@ public class NotesListFragment extends Fragment {
                 break;
         }
         return super.onContextItemSelected(item);
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private void onActionEditClick(int position) {
+        showEditFragment(data.getNoteData(position));
+        publisher.subscribe(new Observer() {
+            @Override
+            public void updateState(NoteData note) {//TODO:не вызываеться
+                data.addNote(note);
+                noteListAdapter.notifyDataSetChanged();
+                recyclerView.smoothScrollToPosition(position);
+            }
+        });
     }
 
     //====================SharedPreferencesWork=============================================
