@@ -28,14 +28,9 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.NoteListAdapter.OnRecyclerViewClickListener;
 
 public class NotesListFragment extends Fragment {
-    public static final String SP_KEY = "SP_KEY";
-    public static final String FAVORITE_KEY = "FAVORITE_KEY";
-    public static final String DATA_KEY = "DATA_KEY";
-
     private static NoteData currentNote;
     private static boolean isFavoriteList;
     private static NoteSource data;
-    private NoteSource favoriteData;
     private NoteListAdapter noteListAdapter;
     private RecyclerView recyclerView;
     private Publisher publisher;
@@ -44,7 +39,7 @@ public class NotesListFragment extends Fragment {
         if (currentNote != null) {
             return currentNote;
         } else {
-            return currentNote = new NoteData();
+            return currentNote = new NoteData.Builder().build();
         }
     }
 
@@ -68,10 +63,10 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = new NoteSourceImpl(getResources());
+        data = new NoteSourceImpl(getResources()).init();
         if (isFavoriteList) {
-            favoriteData = data.getFavoriteData();
-            data = favoriteData;//TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
+            data = data.getFavoriteData();
+            //TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
         }
     }
 
@@ -100,10 +95,16 @@ public class NotesListFragment extends Fragment {
             public void onRecyclerViewClick(View view, int position) {
                 switch (view.getId()) {
                     case R.id.item_card_view:
-                        String currentNoteName = data.getNoteData(position).getTitle();
+                        String currentNoteTitle = data.getNoteData(position).getTitle();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
                         byte currentNoteIsFavorite = data.getNoteData(position).isFavorite();
-                        currentNote = new NoteData(currentNoteName, currentNoteContent, currentNoteIsFavorite);
+                        NoteData.Builder noteBuilder = new NoteData
+                                .Builder()
+                                .setTitle(currentNoteTitle)
+                                .setNoteContent(currentNoteContent)
+                                .setIsFavorite(currentNoteIsFavorite);
+
+                        currentNote = noteBuilder.build();
                         showContent();
                         break;
                     case R.id.favoriteButton:
@@ -111,9 +112,6 @@ public class NotesListFragment extends Fragment {
                             data.getNoteData(position).setFavorite(NoteData.FALSE);
                         } else
                             data.getNoteData(position).setFavorite(NoteData.TRUE);
-                        //writeIsFavorite(requireActivity(), position);
-                        //TODO:чтобы реализовать закладки данные должны записываться и извлекаться из базы данных,
-                        // c SP не получилось(data нельзя записать)
                         if (isFavoriteList) {
                             data.deleteNote(position);
                             //TODO:костыль, нужно удалять только из листа с закладками, а не навсегда
@@ -166,7 +164,7 @@ public class NotesListFragment extends Fragment {
     //========================MainMenuWork==================================
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
         inflater.inflate(R.menu.notes_list_fragment, menu);
     }
@@ -209,7 +207,7 @@ public class NotesListFragment extends Fragment {
 
 
     @Override
-    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+    public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, ContextMenu.ContextMenuInfo menuInfo) {
         super.onCreateContextMenu(menu, v, menuInfo);
         requireActivity().getMenuInflater().inflate(R.menu.context_recycler_view, menu);
     }
@@ -235,38 +233,17 @@ public class NotesListFragment extends Fragment {
     @SuppressLint("NotifyDataSetChanged")
     private void onActionEditClick(int position) {
         showEditFragment(data.getNoteData(position));
-        data.deleteNote(position);
         publisher.subscribe(new Observer() {
             @Override
-            public void updateState(NoteData note) {//TODO:не вызываеться
+            public void updateState(NoteData note) {
+                data.deleteNote(position);
                 data.addNote(note);
+                //решил сделать такую подмену, чтобы отредактированные заметки отображались вверху
+                //TODO: костыль
                 noteListAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(0);
             }
         });
     }
 
-    //====================SharedPreferencesWork=============================================
-
-    /*public static void writeIsFavorite(Context context, int position) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_KEY, Context.MODE_PRIVATE);
-        @SuppressLint("CommitPrefEdits")
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putBoolean(FAVORITE_KEY, data.getNoteData(position).isFavorite());
-    }
-
-    public static void writeData(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_KEY, Context.MODE_PRIVATE);
-        @SuppressLint("CommitPrefEdits")
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        //как положить в SP data?
-    }
-
-    public void readData(Context context) {
-        SharedPreferences sharedPreferences = context.getSharedPreferences(SP_KEY, Context.MODE_PRIVATE);
-        data = sharedPreferences.getClass(DATA_KEY, new NoteSourceImpl(getResources()));
-        for (int i = 0; i < data.size(); i++) {
-            data.getNoteData(i).setFavorite(sharedPreferences.getBoolean(FAVORITE_KEY, false));
-        }
-    }TODO:оставил на случай, если узнаю как записывать в SP классы*/
 }

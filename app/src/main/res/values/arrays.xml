@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string-array name="noteNames">
+    <string-array name="noteTitles">
         <item>First Note</item>
         <item>Second Note</item>
         <item>Third Note</item>

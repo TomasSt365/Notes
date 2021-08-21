@@ -14,7 +14,6 @@ public class NoteSourceImpl implements NoteSource {
     public NoteSourceImpl(Resources resources) {
         dataSource = new ArrayList<>();
         this.resources = resources;
-        init();
     }
 
     public NoteSourceImpl(List<NoteData> dataSource) {
@@ -62,13 +61,17 @@ public class NoteSourceImpl implements NoteSource {
         return new NoteSourceImpl(favoriteData);
     }
 
-    private NoteSourceImpl init() {
-        String[] noteNames = resources.getStringArray(R.array.noteNames);
+    public NoteSourceImpl init() {
+        String[] noteTitles = resources.getStringArray(R.array.noteTitles);
         String[] notesContent = resources.getStringArray(R.array.noteContent);
         //boolean[] notesIsFavorite = resources.getBoolean(R.array.);
-        //TODO: в дальнейшем данные в этом месте будут читаться из базы данных
-        for (int i = 0; i < noteNames.length; i++) {
-            dataSource.add(new NoteData(noteNames[i], notesContent[i]/*, notesIsFavorite[i]*/));
+        for (int i = 0; i < noteTitles.length; i++) {
+            NoteData.Builder noteBuilder = new NoteData.Builder()
+                    .setNoteContent(notesContent[i])
+                    .setTitle(noteTitles[i]);
+                    //.setIsFavorite();
+
+            dataSource.add(noteBuilder.build());
         }
         //TODO: FavoriteList пока не может работать, нет знаний по базе данных
         return this;
