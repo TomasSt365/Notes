@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "518044574116",
+    "project_id": "notes-c3d9b",
+    "storage_bucket": "notes-c3d9b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:518044574116:android:f9953e92a279e909912131",
+        "android_client_info": {
+          "package_name": "com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "518044574116-ra7s9sgumk3c0c388ap38bimd9ch403l.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCEZRU-OpA6H2L4cLdt0QcqU5Qw3Yg4hEA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "518044574116-ra7s9sgumk3c0c388ap38bimd9ch403l.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
