@@ -13,36 +13,12 @@ public class NoteData implements Parcelable {
     private String dateOfChange;
     private byte isFavorite;
 
-    public NoteData() {
-        this.title = "";
-        this.noteContent = "";
-        this.isFavorite = FALSE;
-    }
-
-    public NoteData(String title) {
-        this.title = title;
-        noteContent = "";
-        isFavorite = FALSE;
-    }
-
-    public NoteData(byte isFavorite) {
-        this.title = "";
-        this.noteContent = "";
-        this.isFavorite = isFavorite;
-    }
-
-    public NoteData(String title, String noteContent) {
-        this.title = title;
-        this.noteContent = noteContent;
-        isFavorite = FALSE;
-    }
-
-    public NoteData(String title, String noteContent, byte isFavorite
-            /*хотел сделать так чтобы при вызове конструктора можно было присылать TRUE(1),FALSE(0),
-            это было в предыдущем курсе, но я забыл как это делаеться*/) {
-        this.title = title;
-        this.noteContent = noteContent;
-        this.isFavorite = isFavorite;
+    public NoteData(Builder builder) {
+        this.title = builder.title;
+        this.noteContent = builder.noteContent;
+        this.dateOfCreation = builder.dateOfCreation;
+        this.dateOfChange = builder.dateOfChange;
+        this.isFavorite = builder.isFavorite;
     }
 
     protected NoteData(Parcel in) {
@@ -93,5 +69,42 @@ public class NoteData implements Parcelable {
 
     public void setFavorite(byte favorite) {
         isFavorite = favorite;
+    }
+
+    public static class Builder{
+        private String title = "";
+        private String noteContent = "";
+        private String dateOfCreation;
+        private String dateOfChange;
+        private byte isFavorite = FALSE;
+
+        public Builder setTitle(String title) {
+            this.title = title;
+            return this;
+        }
+
+        public Builder setNoteContent(String noteContent) {
+            this.noteContent = noteContent;
+            return this;
+        }
+
+        public Builder setDateOfCreation(String dateOfCreation) {
+            this.dateOfCreation = dateOfCreation;
+            return this;
+        }
+
+        public Builder setDateOfChange(String dateOfChange) {
+            this.dateOfChange = dateOfChange;
+            return this;
+        }
+
+        public Builder setIsFavorite(byte isFavorite) {
+            this.isFavorite = isFavorite;
+            return this;
+        }
+
+        public NoteData build(){
+            return new NoteData(this);
+        }
     }
 }

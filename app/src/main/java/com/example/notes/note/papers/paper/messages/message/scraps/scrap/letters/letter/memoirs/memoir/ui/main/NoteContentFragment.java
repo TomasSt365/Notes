@@ -15,7 +15,7 @@ public class NoteContentFragment  extends Fragment {
 
     private static final String DATA_KEY = "KEY";
 
-    private static NoteData currentNote = new NoteData("");
+    private static NoteData currentNote;
 
     public static NoteContentFragment newInstance(NoteData noteData) {
         NoteContentFragment fragment = new NoteContentFragment();
@@ -30,6 +30,8 @@ public class NoteContentFragment  extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             currentNote = getArguments().getParcelable(DATA_KEY);
+        }else{
+            currentNote = new NoteData.Builder().build();
         }
     }
 

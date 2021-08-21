@@ -94,8 +94,12 @@ public class EditFragment extends Fragment {
         }else {
             isFavorite = NoteData.FALSE;
         }//TODO:добавить кноку в мекет(В закладках/не закладках) и считывать с неё
+        NoteData.Builder noteBuilder = new NoteData.Builder()
+                .setTitle(title)
+                .setNoteContent(noteContent)
+                .setIsFavorite(isFavorite);
 
-        return new NoteData(title, noteContent, isFavorite);
+        return noteBuilder.build();
     }
 
     @Override
