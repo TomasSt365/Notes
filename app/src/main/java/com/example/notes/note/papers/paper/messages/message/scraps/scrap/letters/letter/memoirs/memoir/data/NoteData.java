@@ -9,8 +9,11 @@ public class NoteData implements Parcelable {
     private String id;
     private String title;
     private String noteContent;
+
+    //TODO дата в приложении не реализована
     private Date dateOfCreation;
-    private Date dateOfChange;
+    private Date dateOfEdit;
+
     private boolean isFavorite;
 
     public NoteData(Builder builder) {
@@ -18,7 +21,7 @@ public class NoteData implements Parcelable {
         this.title = builder.title;
         this.noteContent = builder.noteContent;
         this.dateOfCreation = builder.dateOfCreation;
-        this.dateOfChange = builder.dateOfChange;
+        this.dateOfEdit = builder.dateOfChange;
         this.isFavorite = builder.isFavorite;
     }
 
@@ -52,8 +55,8 @@ public class NoteData implements Parcelable {
             return this;
         }
 
-        public Builder setDateOfChange(Date dateOfChange) {
-            this.dateOfChange = dateOfChange;
+        public Builder setDateOfEdit(Date dateOfEdit) {
+            this.dateOfChange = dateOfEdit;
             return this;
         }
 
@@ -68,6 +71,31 @@ public class NoteData implements Parcelable {
     }
 
     //=================Getters and Setters=======================//
+
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setNoteContent(String noteContent) {
+        this.noteContent = noteContent;
+    }
+
+    public void setDateOfCreation(Date dateOfCreation) {
+        this.dateOfCreation = dateOfCreation;
+    }
+
+    public void setDateOfEdit(Date dateOfEdit) {
+        this.dateOfEdit = dateOfEdit;
+    }
+
+    public Date getDateOfCreation() {
+        return dateOfCreation;
+    }
+
+    public Date getDateOfEdit() {
+        return dateOfEdit;
+    }
 
     public String getId() {
         return id;

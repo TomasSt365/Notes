@@ -22,9 +22,9 @@ public class NoteDataConvertor {
                 .setId(id)
                 .setTitle((String) doc.get(Fields.TITLE))
                 .setNoteContent((String) doc.get(Fields.NOTE_CONTENT))
-                .setIsFavorite((boolean) doc.get(Fields.IS_FAVORITE))
-                .setDateOfCreation(((Timestamp) Objects.requireNonNull(doc.get(Fields.DATE_OF_CREATION))).toDate())
-                .setDateOfEdit(((Timestamp) Objects.requireNonNull(doc.get(Fields.DATE_OF_EDIT))).toDate());
+                .setIsFavorite((boolean) doc.get(Fields.IS_FAVORITE));
+                //.setDateOfCreation(((Timestamp) (doc.get(Fields.DATE_OF_CREATION))).toDate())
+                //.setDateOfEdit(((Timestamp) (doc.get(Fields.DATE_OF_EDIT))).toDate());
 
         return noteBuilder.build();
     }

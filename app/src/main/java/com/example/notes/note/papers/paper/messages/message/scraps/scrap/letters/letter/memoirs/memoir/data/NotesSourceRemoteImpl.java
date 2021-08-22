@@ -14,13 +14,20 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-public class NotesSourceFirebaseImpl implements NotesSource {
+public class NotesSourceRemoteImpl implements NotesSource {
 
     private static final String NOTES_COLLECTION = "NOTES_COLLECTION";
 
     private final FirebaseFirestore store = FirebaseFirestore.getInstance();
     private final CollectionReference collectionReference = store.collection(NOTES_COLLECTION);
     private List<NoteData> notes = new ArrayList<NoteData>();
+
+    public NotesSourceRemoteImpl() {
+    }
+
+    public NotesSourceRemoteImpl(List<NoteData> notes) {
+        this.notes = notes;
+    }
 
     @Override
     public int size() {
@@ -69,7 +76,7 @@ public class NotesSourceFirebaseImpl implements NotesSource {
                 favoriteData.add(this.getNoteData(i));
             }
         }
-        return new NotesSourceImpl(favoriteData);
+        return new NotesSourceRemoteImpl(favoriteData);
     }
 
     @Override
@@ -81,12 +88,12 @@ public class NotesSourceFirebaseImpl implements NotesSource {
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             notes = new ArrayList<NoteData>();
-                            for (QueryDocumentSnapshot docFields : Objects.requireNonNull(task.getResult())) {
+                            for (QueryDocumentSnapshot docFields : task.getResult()) {
                                 NoteData note = NoteDataConvertor
                                         .documentToNoteData(docFields.getId(), docFields.getData());
                                 notes.add(note);
                             }
-                            notesSourceResponse.initialized(NotesSourceFirebaseImpl.this);
+                            notesSourceResponse.initialized(NotesSourceRemoteImpl.this);
                         }
                     }
                 });
