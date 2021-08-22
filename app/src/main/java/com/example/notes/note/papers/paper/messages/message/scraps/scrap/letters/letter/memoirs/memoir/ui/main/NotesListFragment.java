@@ -20,8 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.MainActivity;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSourceImpl;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NotesSource;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NotesSourceLocalImpl;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NotesSourceRemoteImpl;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NotesSourceResponse;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Observer;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.NoteListAdapter.NoteListAdapter;
@@ -30,7 +32,7 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 public class NotesListFragment extends Fragment {
     private static NoteData currentNote;
     private static boolean isFavoriteList;
-    private static NoteSource data;
+    private static NotesSource data;
     private NoteListAdapter noteListAdapter;
     private RecyclerView recyclerView;
     private Publisher publisher;
@@ -63,19 +65,37 @@ public class NotesListFragment extends Fragment {
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        data = new NoteSourceImpl(getResources()).init();
+        /*data = new NotesSourceLocalImpl(getResources()).init(new NotesSourceResponse() {
+            @Override
+            public void initialized(NotesSource notesSource) {
+
+            }
+        });
         if (isFavoriteList) {
             data = data.getFavoriteData();
             //TODO:Костыль. Данные будут добавляться, и удаляться только во вкладке "избранные" из-за этой подмены данных
-        }
+        }*/
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
-
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
         initNotesList(view, isFavoriteList);
+
+        data = new NotesSourceRemoteImpl().init(new NotesSourceResponse() {
+            @SuppressLint("NotifyDataSetChanged")
+            @Override
+            public void initialized(NotesSource notesSource) {
+                noteListAdapter.notifyDataSetChanged();
+            }
+        });
+        if (isFavoriteList) {
+            data = data.getFavoriteData();
+            //TODO:Костыль. Данные будут добавляться и удаляться только во вкладке "избранные" из-за этой подмены данных
+        }
+        noteListAdapter.setDataSource(data);
+
         return view;
     }
 
@@ -84,7 +104,7 @@ public class NotesListFragment extends Fragment {
     private void initNotesList(View view, boolean isFavoriteList) {
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
-        noteListAdapter = new NoteListAdapter(data, this);
+        noteListAdapter = new NoteListAdapter(this);
 
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(layoutManager);
@@ -97,7 +117,7 @@ public class NotesListFragment extends Fragment {
                     case R.id.item_card_view:
                         String currentNoteTitle = data.getNoteData(position).getTitle();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
-                        byte currentNoteIsFavorite = data.getNoteData(position).isFavorite();
+                        boolean currentNoteIsFavorite = data.getNoteData(position).isFavorite();
                         NoteData.Builder noteBuilder = new NoteData
                                 .Builder()
                                 .setTitle(currentNoteTitle)
@@ -108,10 +128,7 @@ public class NotesListFragment extends Fragment {
                         showContent();
                         break;
                     case R.id.favoriteButton:
-                        if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
-                            data.getNoteData(position).setFavorite(NoteData.FALSE);
-                        } else
-                            data.getNoteData(position).setFavorite(NoteData.TRUE);
+                        data.getNoteData(position).setFavorite(!data.getNoteData(position).isFavorite());
                         if (isFavoriteList) {
                             data.deleteNote(position);
                             //TODO:костыль, нужно удалять только из листа с закладками, а не навсегда
@@ -193,7 +210,7 @@ public class NotesListFragment extends Fragment {
             @Override
             public void updateState(NoteData note) {
                 if (isFavoriteList) {
-                    note.setFavorite(NoteData.TRUE);
+                    note.setFavorite(true);
                 }
                 data.addNote(note);
                 noteListAdapter.notifyDataSetChanged();

@@ -17,6 +17,9 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
 import com.google.android.material.textfield.TextInputEditText;
 
+import java.util.Calendar;
+import java.util.Date;
+
 public class EditFragment extends Fragment {
     private static final String ARG_NOTE = "ARG_NOTE";
 
@@ -88,18 +91,25 @@ public class EditFragment extends Fragment {
     private NoteData collectNote() {
         String title = titleEdit.getText().toString();
         String noteContent = noteContentEdit.getText().toString();
-        byte isFavorite;
-        if(note!=null){
-            isFavorite = note.isFavorite();
-        }else {
-            isFavorite = NoteData.FALSE;
-        }//TODO:добавить кноку в мекет(В закладках/не закладках) и считывать с неё
-        NoteData.Builder noteBuilder = new NoteData.Builder()
-                .setTitle(title)
-                .setNoteContent(noteContent)
-                .setIsFavorite(isFavorite);
+        Date dateOfEdit = null;//TODO:добавить считывание текущей даты
 
-        return noteBuilder.build();
+        if(note!=null){
+            note.setTitle(title);
+            note.setNoteContent(noteContent);
+
+        }else {
+            Date dateOfCreation = null;//TODO:добавить считывание текущей даты
+            NoteData.Builder noteBuilder = new NoteData.Builder()
+                    .setTitle(title)
+                    .setNoteContent(noteContent)
+                    .setIsFavorite(false)
+                    .setDateOfEdit(dateOfEdit)
+                    .setDateOfCreation(dateOfCreation);
+
+            note = noteBuilder.build();
+        }
+
+        return note;
     }
 
     @Override

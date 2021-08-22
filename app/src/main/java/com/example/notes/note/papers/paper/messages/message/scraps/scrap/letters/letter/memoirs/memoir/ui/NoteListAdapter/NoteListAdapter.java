@@ -17,11 +17,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteSource;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NotesSource;
 
 public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHolder> {
-    private NoteSource dataSource;
+    private NotesSource dataSource;
     private OnRecyclerViewClickListener listener;
     private final Fragment fragment;
     private int clickContextPosition;
@@ -30,8 +29,8 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         return clickContextPosition;
     }
 
-    public NoteListAdapter(NoteSource dataSource, Fragment fragment) {
-        this.dataSource = dataSource;
+    public NoteListAdapter(Fragment fragment) {
+
         this.fragment = fragment;
     }
 
@@ -39,8 +38,10 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
         this.listener = listener;
     }
 
-    public void setDataSource(NoteSource dataSource) {
+    @SuppressLint("NotifyDataSetChanged")
+    public void setDataSource(NotesSource dataSource) {
         this.dataSource = dataSource;
+        this.notifyDataSetChanged();
     }
 
     @NonNull
@@ -53,7 +54,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noteName.setText(dataSource.getNoteData(position).getTitle());
-        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite() == NoteData.TRUE);
+        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite());
     }
 
     @Override
