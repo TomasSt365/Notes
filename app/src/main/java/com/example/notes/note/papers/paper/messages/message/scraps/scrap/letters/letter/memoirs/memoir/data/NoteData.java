@@ -3,12 +3,14 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.util.Date;
+
 public class NoteData implements Parcelable {
     private String id;
     private String title;
     private String noteContent;
-    private String dateOfCreation;
-    private String dateOfChange;
+    private Date dateOfCreation;
+    private Date dateOfChange;
     private boolean isFavorite;
 
     public NoteData(Builder builder) {
@@ -22,12 +24,12 @@ public class NoteData implements Parcelable {
 
     //==========================Builder================================//
 
-    public static class Builder{
+    public static class Builder {
         private String id;
         private String title = "";
         private String noteContent = "";
-        private String dateOfCreation;
-        private String dateOfChange;
+        private Date dateOfCreation;
+        private Date dateOfChange;
         private boolean isFavorite = false;
 
         public Builder setId(String id) {
@@ -45,12 +47,12 @@ public class NoteData implements Parcelable {
             return this;
         }
 
-        public Builder setDateOfCreation(String dateOfCreation) {
+        public Builder setDateOfCreation(Date dateOfCreation) {
             this.dateOfCreation = dateOfCreation;
             return this;
         }
 
-        public Builder setDateOfChange(String dateOfChange) {
+        public Builder setDateOfChange(Date dateOfChange) {
             this.dateOfChange = dateOfChange;
             return this;
         }
@@ -60,13 +62,12 @@ public class NoteData implements Parcelable {
             return this;
         }
 
-        public NoteData build(){
+        public NoteData build() {
             return new NoteData(this);
         }
     }
 
     //=================Getters and Setters=======================//
-
 
     public String getId() {
         return id;
@@ -95,18 +96,23 @@ public class NoteData implements Parcelable {
     //=================Parcelable implementation=======================//
 
     protected NoteData(Parcel in) {
+        id = in.readString();
         title = in.readString();
         noteContent = in.readString();
-        dateOfCreation = in.readString();
-        dateOfChange = in.readString();
+        isFavorite = in.readByte() != 0;
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(noteContent);
-        dest.writeString(dateOfCreation);
-        dest.writeString(dateOfChange);
+        dest.writeByte((byte) (isFavorite ? 1 : 0));
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
     }
 
     public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {
@@ -120,10 +126,4 @@ public class NoteData implements Parcelable {
             return new NoteData[size];
         }
     };
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
 }
