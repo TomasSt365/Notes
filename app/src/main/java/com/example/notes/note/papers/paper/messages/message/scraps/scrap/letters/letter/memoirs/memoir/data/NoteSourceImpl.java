@@ -54,7 +54,7 @@ public class NoteSourceImpl implements NoteSource {
     public NoteSource getFavoriteData() {
         List<NoteData> favoriteData = new ArrayList<>();
         for (int i = 0; i < dataSource.size(); i++){
-            if(this.getNoteData(i).isFavorite() == NoteData.TRUE){
+            if(this.getNoteData(i).isFavorite()){
                 favoriteData.add(this.getNoteData(i));
             }
         }

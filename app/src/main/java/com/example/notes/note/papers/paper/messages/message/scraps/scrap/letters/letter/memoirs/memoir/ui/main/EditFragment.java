@@ -88,11 +88,11 @@ public class EditFragment extends Fragment {
     private NoteData collectNote() {
         String title = titleEdit.getText().toString();
         String noteContent = noteContentEdit.getText().toString();
-        byte isFavorite;
+        boolean isFavorite;
         if(note!=null){
             isFavorite = note.isFavorite();
         }else {
-            isFavorite = NoteData.FALSE;
+            isFavorite = false;
         }//TODO:добавить кноку в мекет(В закладках/не закладках) и считывать с неё
         NoteData.Builder noteBuilder = new NoteData.Builder()
                 .setTitle(title)

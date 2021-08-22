@@ -4,15 +4,12 @@ import android.os.Parcel;
 import android.os.Parcelable;
 
 public class NoteData implements Parcelable {
-    public static final byte TRUE = 1;
-    public static final byte FALSE = 0;
-
     private String id;
     private String title;
     private String noteContent;
     private String dateOfCreation;
     private String dateOfChange;
-    private byte isFavorite;
+    private boolean isFavorite;
 
     public NoteData(Builder builder) {
         this.id = builder.id;
@@ -31,7 +28,7 @@ public class NoteData implements Parcelable {
         private String noteContent = "";
         private String dateOfCreation;
         private String dateOfChange;
-        private byte isFavorite = FALSE;
+        private boolean isFavorite = false;
 
         public Builder setId(String id) {
             this.id = id;
@@ -58,7 +55,7 @@ public class NoteData implements Parcelable {
             return this;
         }
 
-        public Builder setIsFavorite(byte isFavorite) {
+        public Builder setIsFavorite(boolean isFavorite) {
             this.isFavorite = isFavorite;
             return this;
         }
@@ -87,33 +84,29 @@ public class NoteData implements Parcelable {
         return noteContent;
     }
 
-    public byte isFavorite() {
+    public boolean isFavorite() {
         return isFavorite;
     }
 
-    public void setFavorite(byte favorite) {
+    public void setFavorite(boolean favorite) {
         isFavorite = favorite;
     }
 
     //=================Parcelable implementation=======================//
 
     protected NoteData(Parcel in) {
-        id = in.readString();
         title = in.readString();
         noteContent = in.readString();
         dateOfCreation = in.readString();
         dateOfChange = in.readString();
-        isFavorite = in.readByte();
     }
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(noteContent);
         dest.writeString(dateOfCreation);
         dest.writeString(dateOfChange);
-        dest.writeByte(isFavorite);
     }
 
     public static final Creator<NoteData> CREATOR = new Creator<NoteData>() {

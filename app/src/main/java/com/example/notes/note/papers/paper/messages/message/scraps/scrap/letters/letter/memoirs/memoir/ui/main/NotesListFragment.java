@@ -97,7 +97,7 @@ public class NotesListFragment extends Fragment {
                     case R.id.item_card_view:
                         String currentNoteTitle = data.getNoteData(position).getTitle();
                         String currentNoteContent = data.getNoteData(position).getNoteContent();
-                        byte currentNoteIsFavorite = data.getNoteData(position).isFavorite();
+                        boolean currentNoteIsFavorite = data.getNoteData(position).isFavorite();
                         NoteData.Builder noteBuilder = new NoteData
                                 .Builder()
                                 .setTitle(currentNoteTitle)
@@ -108,10 +108,7 @@ public class NotesListFragment extends Fragment {
                         showContent();
                         break;
                     case R.id.favoriteButton:
-                        if (data.getNoteData(position).isFavorite() == NoteData.TRUE) {
-                            data.getNoteData(position).setFavorite(NoteData.FALSE);
-                        } else
-                            data.getNoteData(position).setFavorite(NoteData.TRUE);
+                        data.getNoteData(position).setFavorite(!data.getNoteData(position).isFavorite());
                         if (isFavoriteList) {
                             data.deleteNote(position);
                             //TODO:костыль, нужно удалять только из листа с закладками, а не навсегда
@@ -193,7 +190,7 @@ public class NotesListFragment extends Fragment {
             @Override
             public void updateState(NoteData note) {
                 if (isFavoriteList) {
-                    note.setFavorite(NoteData.TRUE);
+                    note.setFavorite(true);
                 }
                 data.addNote(note);
                 noteListAdapter.notifyDataSetChanged();

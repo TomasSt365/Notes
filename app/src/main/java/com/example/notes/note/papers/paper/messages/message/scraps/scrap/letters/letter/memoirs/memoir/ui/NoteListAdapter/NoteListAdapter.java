@@ -53,7 +53,7 @@ public class NoteListAdapter extends RecyclerView.Adapter<NoteListAdapter.ViewHo
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         holder.noteName.setText(dataSource.getNoteData(position).getTitle());
-        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite() == NoteData.TRUE);
+        holder.favoriteButton.setChecked(dataSource.getNoteData(position).isFavorite());
     }
 
     @Override
