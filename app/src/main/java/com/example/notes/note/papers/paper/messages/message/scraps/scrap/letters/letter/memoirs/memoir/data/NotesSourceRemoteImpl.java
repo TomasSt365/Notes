@@ -43,6 +43,7 @@ public class NotesSourceRemoteImpl implements NotesSource {
     public void addNote(NoteData note) {
         collectionReference
                 .add(NoteDataConvertor.noteDataToDocument(note));
+        notes.add(note);
     }
 
     @Override
@@ -50,6 +51,7 @@ public class NotesSourceRemoteImpl implements NotesSource {
         collectionReference
                 .document(notes.get(position).getId())
                 .update(NoteDataConvertor.noteDataToDocument(note));
+        notes.set(position, note);
     }
 
     @Override
@@ -57,6 +59,7 @@ public class NotesSourceRemoteImpl implements NotesSource {
         collectionReference
                 .document(notes.get(position).getId())
                 .delete();
+        notes.remove(position);
     }
 
     @Override
@@ -66,6 +69,7 @@ public class NotesSourceRemoteImpl implements NotesSource {
                     .document(note.getId())
                     .delete();
         }
+        notes.clear();
     }
 
     @Override
