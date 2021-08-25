@@ -2,6 +2,7 @@ package com.example.notes.note.papers.paper.messages.message.scraps.scrap.letter
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -10,13 +11,16 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.Const;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.MainActivity;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
@@ -25,10 +29,12 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.notesSources.NotesSourceResponse;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Observer;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.removeDialog.OnRemoveDialogClickListener;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.removeDialog.RemoveDialogFragment;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NoteListAdapter.NoteListAdapter;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NoteListAdapter.OnRecyclerViewClickListener;
 
-public class NotesListFragment extends Fragment {
+public class NotesListFragment extends Fragment implements OnRemoveDialogClickListener {
     private static NoteData currentNote;
     private static boolean isFavoriteList;
     private static NotesSource data;
@@ -98,7 +104,7 @@ public class NotesListFragment extends Fragment {
         return view;
     }
 
-    //=======================ContentWork================================
+    //=======================ContentWork================================//
 
     private void initNotesList(View view, boolean isFavoriteList) {
         recyclerView = view.findViewById(R.id.listRecyclerView);
@@ -177,15 +183,15 @@ public class NotesListFragment extends Fragment {
                 .commit();
     }
 
-    //========================MainMenuWork==================================
+    //========================MainMenuWork==================================//
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.notes_list_fragment, menu);
+        inflater.inflate(R.menu.notes_list_fragment_menu, menu);
     }
 
-    @SuppressLint({"NonConstantResourceId", "NotifyDataSetChanged"})
+    @SuppressLint({"NonConstantResourceId"})
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
@@ -193,8 +199,7 @@ public class NotesListFragment extends Fragment {
                 onActionAddClick();
                 break;
             case R.id.actionClearAll:
-                data.clearAllNote();
-                noteListAdapter.notifyDataSetChanged();
+                showRemoveDialogFragment(Const.ALL_NOTES_POSITION);
                 break;
             default:
                 break;
@@ -219,8 +224,7 @@ public class NotesListFragment extends Fragment {
 
     }
 
-    //========================ContextMenuWork==================================
-
+    //========================ContextMenuWork==================================//
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, ContextMenu.ContextMenuInfo menuInfo) {
@@ -237,8 +241,7 @@ public class NotesListFragment extends Fragment {
                 onActionEditClick(position);
                 break;
             case R.id.action_delete:
-                data.deleteNote(position);
-                noteListAdapter.notifyDataSetChanged();
+                showRemoveDialogFragment(position);
                 break;
             default:
                 break;
@@ -261,5 +264,35 @@ public class NotesListFragment extends Fragment {
             }
         });
     }
+
+    //==========================RemoveDialogWork===============================//
+
+    void showRemoveDialogFragment(int position) {
+        NoteData note;
+        if (position == Const.ALL_NOTES_POSITION) {
+            note = Const.ALL_NOTES;
+        } else {
+            note = data.getNoteData(position);
+        }
+        RemoveDialogFragment fragment = RemoveDialogFragment.newInstance(position, note);
+        fragment.setOnDialogClickListener(this);
+        FragmentManager fragmentManager = requireActivity().getSupportFragmentManager();
+        fragment.show(fragmentManager, "");
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    @Override
+    public void onPositiveButtonClick(int position) {
+        if (position == Const.ALL_NOTES_POSITION) {
+            data.clearAllNote();
+        } else {
+            data.deleteNote(position);
+        }
+
+        noteListAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onNegativeButtonClick() {}
 
 }
