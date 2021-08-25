@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -74,7 +75,6 @@ public class EditFragment extends Fragment {
     private void fillNoteInEditMode() {
         titleEdit.setText(note.getTitle());
         noteContentEdit.setText(note.getNoteContent());
-        //TODO:не забыть считать значение кнопки закладок(после добавления)
     }
 
     private void initView(View view) {
@@ -86,6 +86,14 @@ public class EditFragment extends Fragment {
     public void onStop() {
         super.onStop();
         note = collectNote();
+        publisher.notifyTask(note);
+        Toast.makeText(requireActivity(), R.string.changesSavedText, Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        publisher = null;
     }
 
     private NoteData collectNote() {
@@ -112,10 +120,4 @@ public class EditFragment extends Fragment {
         return note;
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        publisher.notifyTask(note);
-        publisher = null;
-    }
 }

@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">Заметки</string>
+    <string name="favoriteText">Избранное</string>
+    <string name="settingsText">Настройки</string>
+    <string name="homeText">Главная</string>
+    <string name="actionEditText">Редактировать</string>
+    <string name="actionDeleteText">Удалить</string>
+    <string name="actionAddText">Добавить</string>
+    <string name="actionClearAllText">Удалить всё</string>
+    <string name="titleEditTextPromptText">Title</string>
+    <string name="removeNoteDialogMessage">Удалить эту заметку?</string>
+    <string name="clearAllDialogMessage">Удалить все заметки?</string>
+    <string name="removeDialogNegativeAnswer">нет</string>
+    <string name="removeDialogPositiveAnswer">да</string>
+    <string name="changesSavedText">Изменения сохранены</string>
+</resources>

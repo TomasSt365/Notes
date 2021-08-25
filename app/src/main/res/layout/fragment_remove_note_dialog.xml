@@ -53,6 +53,11 @@
                     style="@style/bottomSheetDialogBtnStyle"
                     android:text="@string/removeDialogNegativeAnswer" />
 
+                <FrameLayout
+                    android:layout_width="1dp"
+                    android:layout_height="match_parent"
+                    android:background="#20383838"/>
+
                 <com.google.android.material.button.MaterialButton
                     android:id="@+id/positiveBtn"
                     android:background="@android:color/transparent"

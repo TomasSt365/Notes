@@ -55,7 +55,7 @@
 
     <style name="bottomSheetDialogBtnStyle">
         <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_height">@dimen/bottomSheetDialogBtnSize</item>
         <item name="android:textStyle">bold</item>
         <item name="android:textColor">@color/purple_700</item>
         <item name="android:layout_weight">1</item>

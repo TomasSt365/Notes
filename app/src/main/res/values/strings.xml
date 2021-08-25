@@ -12,4 +12,5 @@
     <string name="clearAllDialogMessage">Clear all notes?</string>
     <string name="removeDialogNegativeAnswer">no</string>
     <string name="removeDialogPositiveAnswer">yes</string>
+    <string name="changesSavedText">Changes saved</string>
 </resources>
