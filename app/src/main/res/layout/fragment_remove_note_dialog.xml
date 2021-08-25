@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:toosl="http://schemas.android.com/tools"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="noteToDelete"
+        style="@style/titleStyle"
+        android:layout_gravity="center"
+        toosl:text="NoteTitle"/>
+
+    <TextView
+        android:id="@+id/textView"
+        style="@style/removeNoteDialogMessageStyle"
+        android:text="@string/removeDialogMessage" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnOk"
+            style="@style/bottomSheetDialogBtnStyle"
+            android:text="@string/removeDialogNegativeAnswer" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnYes"
+            style="@style/bottomSheetDialogBtnStyle"
+            android:text="@string/removeDialogPositiveAnswer" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -8,4 +8,7 @@
     <string name="actionAddText">Add</string>
     <string name="actionClearAllText">Clear all</string>
     <string name="titleEditTextPromptText">Title</string>
+    <string name="removeDialogMessage">Delete this note?</string>
+    <string name="removeDialogNegativeAnswer">no</string>
+    <string name="removeDialogPositiveAnswer">yes</string>
 </resources>
