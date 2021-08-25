@@ -106,4 +106,7 @@ public class NotesSourceRemoteImpl implements NotesSource {
         return this;
     }
 
+    public CollectionReference getCollectionReference() {
+        return collectionReference;
+    }
 }

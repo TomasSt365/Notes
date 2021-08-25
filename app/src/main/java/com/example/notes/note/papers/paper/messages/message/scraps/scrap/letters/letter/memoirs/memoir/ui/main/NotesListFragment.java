@@ -132,12 +132,9 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
                         break;
                     case R.id.favoriteButton:
                         data.getNoteData(position).setFavorite(!data.getNoteData(position).isFavorite());
-                        if (isFavoriteList) {
-                            data.deleteNote(position);
-                            //TODO:костыль, нужно удалять только из листа с закладками, а не навсегда
-                            // (Должен быть наблюдатель, который будет сортировать данные и убирать обычные заметки, если включен FavoriteList)
-                            noteListAdapter.notifyDataSetChanged();
-                        }
+                        data.editNote(position, data.getNoteData(position));
+                        // TODO: Должен быть наблюдатель,
+                        //  который будет сортировать данные и убирать обычные заметки, если включен FavoriteList
                         break;
                     default:
                         break;
@@ -253,10 +250,7 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
         publisher.subscribe(new Observer() {
             @Override
             public void updateState(NoteData note) {
-                data.deleteNote(position);
-                data.addNote(note);
-                //решил сделать такую подмену, чтобы отредактированные заметки отображались вверху
-                //TODO: костыль
+                data.editNote(position,note);
                 noteListAdapter.notifyDataSetChanged();
                 recyclerView.smoothScrollToPosition(0);
             }
