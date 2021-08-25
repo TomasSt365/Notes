@@ -22,12 +22,12 @@
         android:orientation="horizontal">
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnOk"
+            android:id="@+id/negativeBtn"
             style="@style/bottomSheetDialogBtnStyle"
             android:text="@string/removeDialogNegativeAnswer" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnYes"
+            android:id="@+id/positiveBtn"
             style="@style/bottomSheetDialogBtnStyle"
             android:text="@string/removeDialogPositiveAnswer" />
     </LinearLayout>
