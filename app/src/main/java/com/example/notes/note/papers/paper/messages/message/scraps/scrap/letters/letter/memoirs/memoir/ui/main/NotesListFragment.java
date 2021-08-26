@@ -27,6 +27,7 @@ import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.notesSources.NotesSourceResponse;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Observer;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.Navigation;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.removeDialog.OnRemoveDialogClickListener;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.removeDialog.RemoveDialogFragment;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NoteListAdapter.NoteListAdapter;
@@ -39,6 +40,7 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
     private NoteListAdapter noteListAdapter;
     private RecyclerView recyclerView;
     private Publisher publisher;
+    private Navigation navigation;
 
     public static NoteData getCurrentNote() {
         if (currentNote != null) {
@@ -57,12 +59,14 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
     public void onAttach(@NonNull Context context) {
         super.onAttach(context);
         publisher = ((MainActivity) context).getPublisher();
+        navigation = new Navigation(requireActivity().getSupportFragmentManager());
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
         publisher = null;
+        navigation = null;
     }
 
     @Override
@@ -84,8 +88,6 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         setHasOptionsMenu(true);
         View view = inflater.inflate(R.layout.fragment_notes_list, container, false);
-        initNotesList(view, isFavoriteList);
-
         data = new NotesSourceRemoteImpl().init(new NotesSourceResponse() {
             @SuppressLint("NotifyDataSetChanged")
             @Override
@@ -97,14 +99,14 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
             data = data.getFavoriteData();
             //TODO:Костыль. Данные будут добавляться и удаляться только во вкладке "избранные" из-за этой подмены данных
         }
+        initNotesList(view);
         noteListAdapter.setDataSource(data);
-
         return view;
     }
 
     //=======================ContentWork================================//
 
-    private void initNotesList(View view, boolean isFavoriteList) {
+    private void initNotesList(View view) {
         recyclerView = view.findViewById(R.id.listRecyclerView);
         LinearLayoutManager layoutManager = new LinearLayoutManager(getContext());
         noteListAdapter = new NoteListAdapter(this);
@@ -145,37 +147,12 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
 
     private void showContent() {
         if (MainActivity.isLandScape()) {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
-                    .commit();
+            navigation.addFragment(R.id.content_container,
+                    NoteContentFragment.newInstance(currentNote), false);
         } else {
-            requireActivity()
-                    .getSupportFragmentManager()
-                    .beginTransaction()
-                    .addToBackStack("")
-                    .replace(R.id.main_container, NoteContentFragment.newInstance(currentNote))
-                    .commit();
+            navigation.addFragment(R.id.main_container,
+                    NoteContentFragment.newInstance(currentNote), true);
         }
-    }
-
-    private void showEditFragment() {
-        requireActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("")
-                .replace(R.id.main_container, EditFragment.newInstance())
-                .commit();
-    }
-
-    private void showEditFragment(NoteData note) {
-        requireActivity()
-                .getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("")
-                .replace(R.id.main_container, EditFragment.newInstance(note))
-                .commit();
     }
 
     //========================MainMenuWork==================================//
@@ -204,7 +181,7 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
 
     @SuppressLint("NotifyDataSetChanged")
     private void onActionAddClick() {
-        showEditFragment();
+        navigation.addFragment(R.id.main_container, EditFragment.newInstance(),true);
         publisher.subscribe(new Observer() {
             @Override
             public void updateState(NoteData note) {
@@ -246,7 +223,8 @@ public class NotesListFragment extends Fragment implements OnRemoveDialogClickLi
 
     @SuppressLint("NotifyDataSetChanged")
     private void onActionEditClick(int position) {
-        showEditFragment(data.getNoteData(position));
+        navigation.addFragment(R.id.main_container,
+                EditFragment.newInstance(data.getNoteData(position)),true);
         publisher.subscribe(new Observer() {
             @Override
             public void updateState(NoteData note) {

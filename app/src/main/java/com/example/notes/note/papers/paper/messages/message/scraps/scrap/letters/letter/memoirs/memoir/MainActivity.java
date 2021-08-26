@@ -13,7 +13,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.observer.Publisher;
-import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.Settings.SettingsFragment;
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.Navigation;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NoteContentFragment;
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NotesListFragment;
 
@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
     private static boolean isLandScape;
     private NoteData currentNote;
     private Publisher publisher;
+    Navigation navigation;
 
     public Publisher getPublisher() {
         return publisher;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         setContentView(R.layout.activity_main);
         getSupportFragmentManager().addOnBackStackChangedListener(this);
 
-        initField();
+        initFields();
         initToolBar();
         showContent(currentNote, false);
     }
@@ -43,32 +44,22 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
         return isLandScape;
     }
 
-    private void initField() {
+    private void initFields() {
         isLandScape = getResources()
                 .getConfiguration()
                 .orientation == Configuration.ORIENTATION_LANDSCAPE;
         currentNote = NotesListFragment.getCurrentNote();
         publisher = new Publisher();
+        navigation = new Navigation(getSupportFragmentManager());
     }
 
     private void showContent(NoteData currentNote, boolean isFavoriteList) {
         Fragment notesListFragment = NotesListFragment.newInstance(isFavoriteList);
+        Fragment noteContentFragment = NoteContentFragment.newInstance(currentNote);
 
-        getSupportFragmentManager()
-                .popBackStack();
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .replace(R.id.main_container, notesListFragment)
-                .commit();
+        navigation.addFragment(R.id.main_container, notesListFragment,false,true);
         if (isLandScape()) {
-            getSupportFragmentManager()
-                    .popBackStack();
-
-            getSupportFragmentManager()
-                    .beginTransaction()
-                    .replace(R.id.content_container, NoteContentFragment.newInstance(currentNote))
-                    .commit();
+            navigation.addFragment(R.id.content_container, noteContentFragment, false);
         }
     }
 
@@ -96,20 +87,13 @@ public class MainActivity extends AppCompatActivity implements FragmentManager.O
                 showContent(currentNote,true);
                 break;
             case R.id.action_settings:
-                //onSettingsClick();//некоректная работа из-за жёсткой разметки макета в LandScape
+                //Navigation.addFragment(R.id.main_container, SettingsFragment.newInstance(), true);
+                // некоректная работа из-за жёсткой разметки макета в LandScape
                 break;
             default:
                 break;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    private void onSettingsClick() {
-        getSupportFragmentManager()
-                .beginTransaction()
-                .addToBackStack("")
-                .replace(R.id.main_container, SettingsFragment.newInstance())
-                .commit();
     }
 
     //============================================================================//
