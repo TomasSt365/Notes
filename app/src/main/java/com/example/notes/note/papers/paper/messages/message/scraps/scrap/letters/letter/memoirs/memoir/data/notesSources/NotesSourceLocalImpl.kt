@@ -46,4 +46,12 @@ class NotesSourceLocalImpl(
         notesSourceResponse?.initialized(this)
         return this
     }
+
+    private constructor(resources: Resources?, notes: MutableList<NoteData?>) : this(resources = resources){
+        this.notes = notes
+    }
+
+    override fun copy(): NotesSource {
+        return NotesSourceLocalImpl(resources, notes)
+    }
 }

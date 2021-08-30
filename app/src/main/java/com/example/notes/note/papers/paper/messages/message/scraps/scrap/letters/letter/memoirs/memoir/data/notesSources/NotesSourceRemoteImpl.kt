@@ -8,10 +8,10 @@ import java.util.*
 import kotlin.collections.ArrayList
 
 
-class NotesSourceRemoteImpl: NotesSource {
+class NotesSourceRemoteImpl() : NotesSource {
     private var notes: MutableList<NoteData> = ArrayList()
-    private val store = FirebaseFirestore.getInstance()
-    private val collectionReference = store.collection(NOTES_COLLECTION)
+    private var store = FirebaseFirestore.getInstance()
+    private var collectionReference = store.collection(NOTES_COLLECTION)
 
     override fun size(): Int {
         return notes.size
@@ -68,6 +68,20 @@ class NotesSourceRemoteImpl: NotesSource {
                 }
             }
         return this
+    }
+
+    private constructor(
+        notes: MutableList<NoteData>,
+        store: FirebaseFirestore,
+        collectionReference: CollectionReference,
+    ) : this() {
+        this.notes = notes
+        this.store = store
+        this.collectionReference = collectionReference
+    }
+
+    override fun copy(): NotesSource {
+        return NotesSourceRemoteImpl(notes, store, collectionReference)
     }
 
     companion object {
