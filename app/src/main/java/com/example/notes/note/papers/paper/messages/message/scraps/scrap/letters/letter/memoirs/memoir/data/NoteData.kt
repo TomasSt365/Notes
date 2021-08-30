@@ -8,6 +8,7 @@ import java.util.*
 
 class NoteData : Parcelable {
     var id: String?
+
     var title: String?
     var noteContent: String?
     var isFavorite: Boolean
@@ -25,6 +26,17 @@ class NoteData : Parcelable {
         isFavorite = builder.isFavorite
     }
 
+    fun copy(): NoteData {
+        val builder = Builder()
+            .setTitle(title)
+            .setNoteContent(noteContent)
+            .setDateOfCreation(dateOfCreation)
+            .setDateOfEdit(dateOfEdit)
+            .setIsFavorite(isFavorite)
+
+        return builder.build()
+    }
+
     /**Builder*/
     class Builder {
         var id: String? = null
@@ -33,6 +45,7 @@ class NoteData : Parcelable {
         var dateOfCreation: Date? = null
         var dateOfChange: Date? = null
         var isFavorite = false
+
         fun setId(id: String?): Builder {
             this.id = id
             return this
