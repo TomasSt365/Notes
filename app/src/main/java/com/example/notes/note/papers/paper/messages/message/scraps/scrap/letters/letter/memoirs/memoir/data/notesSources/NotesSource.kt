@@ -9,5 +9,7 @@ interface NotesSource {
     fun editNote(position: Int, note: NoteData?)
     fun deleteNote(position: Int)
     fun clearAllNote()
+
     fun init(notesSourceResponse: NotesSourceResponse?): NotesSource
+    fun copy(): NotesSource
 }
