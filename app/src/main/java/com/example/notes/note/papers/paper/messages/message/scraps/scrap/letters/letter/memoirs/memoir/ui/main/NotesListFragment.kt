@@ -182,12 +182,13 @@ class NotesListFragment : Fragment(),
 
     /**RemoveDialogWork*/
     private fun showRemoveDialogFragment(position: Int) {
-        val note: NoteData? = if (position == Const.ALL_NOTES_POSITION) {
+        positionToRemote = position
+        noteToDelete = if (position == Const.ALL_NOTES_POSITION) {
             Const.ALL_NOTES
         } else {
             data!!.getNoteData(position)
         }
-        val fragment = RemoveDialogFragment.newInstance(position, note)
+        val fragment = RemoveDialogFragment.newInstance()
         fragment.setOnDialogClickListener(this)
         val fragmentManager = requireActivity().supportFragmentManager
         fragment.show(fragmentManager, "")
@@ -208,6 +209,9 @@ class NotesListFragment : Fragment(),
     companion object {
         private var currentNote: NoteData? = null
         private var isFavoriteList = false
+        private var positionToRemote = -1
+        private var noteToDelete: NoteData? = null
+
         fun getCurrentNote(): NoteData? {
             return if (currentNote != null) {
                 currentNote
@@ -215,6 +219,10 @@ class NotesListFragment : Fragment(),
                 NoteData.Builder().build()
             }
         }
+
+        fun getPositionToRemote() = positionToRemote
+
+        fun getNoteToDelete() = noteToDelete
 
         fun newInstance(isFavoriteList: Boolean): NotesListFragment {
             Companion.isFavoriteList = isFavoriteList

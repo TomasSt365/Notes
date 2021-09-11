@@ -10,11 +10,12 @@ import android.widget.TextView
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.Const
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.R
 import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.data.NoteData
+import com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir.ui.main.NotesListFragment
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class RemoveDialogFragment(
-    private var position: Int,
-    private var note: NoteData?) : BottomSheetDialogFragment(), View.OnClickListener {
+class RemoveDialogFragment : BottomSheetDialogFragment(), View.OnClickListener {
+    private var position: Int = -1
+    private var note: NoteData? = null
     private var dialogClickListener: OnRemoveDialogClickListener? = null
 
     @SuppressLint("UseRequireInsteadOfGet")
@@ -22,6 +23,9 @@ class RemoveDialogFragment(
         if (arguments != null) {
             note = arguments!!.getParcelable(NOTE_DIALOG_KEY)
             position = arguments!!.getInt(POSITION_DIALOG_KEY)
+        } else {
+            note = NotesListFragment.getNoteToDelete()
+            position = NotesListFragment.getPositionToRemote()
         }
         setStyle(STYLE_NO_TITLE, R.style.RemoveDialogStyle)
         super.onCreate(savedInstanceState)
@@ -70,11 +74,11 @@ class RemoveDialogFragment(
     companion object {
         private const val NOTE_DIALOG_KEY = "NOTE_DIALOG_KEY"
         private const val POSITION_DIALOG_KEY = "POSITION_DIALOG_KEY"
-        fun newInstance(position: Int, note: NoteData?): RemoveDialogFragment {
-            val fragment = RemoveDialogFragment(position, note)
+        fun newInstance(): RemoveDialogFragment {
+            val fragment = RemoveDialogFragment()
             val bundle = Bundle()
-            bundle.putParcelable(NOTE_DIALOG_KEY, note)
-            bundle.putInt(POSITION_DIALOG_KEY, position)
+            bundle.putParcelable(NOTE_DIALOG_KEY, NotesListFragment.getNoteToDelete())
+            bundle.putInt(POSITION_DIALOG_KEY, NotesListFragment.getPositionToRemote())
             fragment.arguments = bundle
             return fragment
         }
