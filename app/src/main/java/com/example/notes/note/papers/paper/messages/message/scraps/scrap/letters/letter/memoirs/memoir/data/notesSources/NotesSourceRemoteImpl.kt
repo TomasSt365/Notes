@@ -7,7 +7,6 @@ import com.google.firebase.firestore.*
 import java.util.*
 import kotlin.collections.ArrayList
 
-
 class NotesSourceRemoteImpl() : NotesSource {
     private var notes: MutableList<NoteData> = ArrayList()
     private var store = FirebaseFirestore.getInstance()
@@ -51,10 +50,8 @@ class NotesSourceRemoteImpl() : NotesSource {
     }
 
     override fun init(notesSourceResponse: NotesSourceResponse?): NotesSource {
-        collectionReference.orderBy(
-            NoteDataConvertor.Fields.DATE_OF_EDIT,
-            Query.Direction.DESCENDING
-        )
+        collectionReference
+            .orderBy(NoteDataConvertor.Fields.DATE_OF_CREATION, Query.Direction.DESCENDING)
             .get()
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {

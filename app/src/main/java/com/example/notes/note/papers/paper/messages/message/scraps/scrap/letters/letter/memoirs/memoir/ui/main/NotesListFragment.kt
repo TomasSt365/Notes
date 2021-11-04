@@ -44,14 +44,6 @@ class NotesListFragment : Fragment(),
         navigation = null
     }
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        /*data = NotesSourceLocalImpl(resources).init(object : NotesSourceResponse{
-            override fun initialized(notesSource: NotesSource?) {
-            }
-        })todo: локальные даные*/
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
