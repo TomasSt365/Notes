@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.notes.note.papers.paper.messages.message.scraps.scrap.letters.letter.memoirs.memoir">
+    xmlns:tools="http://schemas.android.com/tools"
+    package="com.github.tomasSt365.notes">
 
     <uses-permission android:name="android.permission.VIBRATE"/>
 
@@ -10,9 +11,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.Notes">
+        android:theme="@style/Theme.Notes"
+        tools:ignore="AllowBackup">
         <activity
-            android:name=".MainActivity"
+            android:name="com.github.tomasSt365.notes.MainActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
